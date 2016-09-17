@@ -1,0 +1,9 @@
+models:
+    image: tp33/django
+    external_links:
+      -  mysql:db
+    volumes:
+      - ~/cs4501/app:/app
+    ports:
+      - "8001:8000"
+    command: bash -c "mod_wsgi-express start-server --working-directory /app/saynomore --reload-on-changes /app/saynomore/saynomore/wsgi.py"
