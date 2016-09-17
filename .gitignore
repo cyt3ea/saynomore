@@ -4,4 +4,3 @@
 
 *.py[co]
 __pycache__
-migrations/
