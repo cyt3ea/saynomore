@@ -20,7 +20,7 @@ class Review(models.Model):
 	id = models.AutoField(primary_key=True)
 	title = models.CharField(max_length=30)
 	body = models.TextField()
-	author = models.ForeignKey(webapp.User, unique=True)
+	author = models.ForeignKey(User, unique=True)
 	rating = models.IntegerField(default=0)
 	review_upvotes =models.IntegerField(default=0)
 
