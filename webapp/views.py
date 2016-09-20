@@ -277,10 +277,6 @@ def update_review(request, review_id):
 	except models.Review.DoesNotExist:
 		return _error_response(request, "Review not found")
 
-	if not models.User.objects.filter(pk=request.POST['author']).exists():
-		return _error_response("User does not exist")
-	u = models.User.objects.get(pk=request.POST['author'])
-
 	changed = False
 	if 'title' in request.POST:
 		r.title = request.POST['title']
@@ -289,6 +285,9 @@ def update_review(request, review_id):
 		r.body = request.POST['body']
 		changed = True
 	if 'author' in request.POST:
+		if not models.User.objects.filter(pk=request.POST['author']).exists():
+			return _error_response("User does not exist")
+		u = models.User.objects.get(pk=request.POST['author'])
 		r.author = u
 		changed = True
 	if 'rating' in request.POST:
