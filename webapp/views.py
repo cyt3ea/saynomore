@@ -83,7 +83,7 @@ def update_stylist(request, stylist_id):
 def create_user(request):
 	if request.method != 'POST':
 		return _error_response(request, "400 Bad Request - must make HTTP POST request")
-	if 'f_name' not in request.POST or 'l_name' not in request.POST or 'email' not in request.POST or 'password' not in request.POST or 'username' not in request.POST:
+	if 'f_name' not in request.POST or 'l_name' not in request.POST or  'password' not in request.POST or 'username' not in request.POST:
 		return _error_response(request, "400 Bad Request - missing required fields")
 
 	u = models.User(f_name=request.POST['f_name'], 
@@ -277,6 +277,10 @@ def update_review(request, review_id):
 	except models.Review.DoesNotExist:
 		return _error_response(request, "Review not found")
 
+	if not models.User.objects.filter(pk=request.POST['author']).exists():
+		return _error_response("User does not exist")
+	u = models.User.objects.get(pk=request.POST['author'])
+
 	changed = False
 	if 'title' in request.POST:
 		r.title = request.POST['title']
@@ -285,7 +289,7 @@ def update_review(request, review_id):
 		r.body = request.POST['body']
 		changed = True
 	if 'author' in request.POST:
-		r.author = request.POST['author']
+		r.author = u
 		changed = True
 	if 'rating' in request.POST:
 		r.rating = request.POST['rating']
