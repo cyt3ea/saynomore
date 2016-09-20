@@ -9,6 +9,8 @@ from django.forms.models import model_to_dict
 from django import db
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.forms.models import model_to_dict
+
 
 from webapp import models
 
@@ -26,8 +28,7 @@ def create_stylist(request):
 		s.save()
 	except db.Error:
 		return _error_response(request, "db error")
-	data = serializers.serialize("json", [s])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(s))
 
 def lookup_stylist(request, stylist_id):
 	if request.method != 'GET':
@@ -37,8 +38,7 @@ def lookup_stylist(request, stylist_id):
 		s = models.Stylist.objects.get(pk=stylist_id)
 	except models.Stylist.DoesNotExist:
 		return _error_response(request, "Stylist not found")
-	data = serializers.serialize("json", [s])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(s))
 
 def delete_stylist(request, stylist_id):
 	if request.method != 'DELETE':
@@ -77,8 +77,7 @@ def update_stylist(request, stylist_id):
 		return _error_response(request, "No fields updated")
 
 	s.save()
-	data = serializers.serialize("json", [s])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(s))
 
 
 def create_user(request):
@@ -97,8 +96,7 @@ def create_user(request):
 	    u.save()
 	except db.Error:
 	    return _error_response(request, "db error")
-	data = serializers.serialize("json", [u])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(u))
 
 def lookup_user(request, user_id):
 	if request.method != 'GET':
@@ -108,8 +106,7 @@ def lookup_user(request, user_id):
 		u = models.User.objects.get(pk=user_id)
 	except models.User.DoesNotExist:
 		return _error_response(request, "User not found")
-	data = serializers.serialize("json", [u])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(u))
 
 def delete_user(request, user_id):
 	if request.method != 'DELETE':
@@ -150,8 +147,7 @@ def update_user(request, user_id):
 		return _error_response(request, "No fields updated")
 
 	u.save()
-	data = serializers.serialize("json", [u])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(u))
 
 # Tested using django client tool -- go into python manage.py shell
 # from django.test import Client
@@ -174,8 +170,7 @@ def create_hair(request):
 	    h.save()
 	except db.Error:
 	    return _error_response(request, "db error")
-	data = serializers.serialize("json", [h])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(h))
 
 def lookup_hair(request, hair_id):
 	if request.method != 'GET':
@@ -185,8 +180,7 @@ def lookup_hair(request, hair_id):
 		h = models.Hair.objects.get(pk=hair_id)
 	except models.Hair.DoesNotExist:
 		return _error_response(request, "Hair not found")
-	data = serializers.serialize("json", [h])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(h))
 
 def delete_hair(request, hair_id):
 	if request.method != 'DELETE':
@@ -233,8 +227,7 @@ def update_hair(request, hair_id):
 		return _error_response(request, "No fields updated")
 
 	h.save()
-	data = serializers.serialize("json", [h])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(h))
 
 def create_review(request):
 	if request.method != 'POST':
@@ -254,8 +247,7 @@ def create_review(request):
 	    r.save()
 	except db.Error:
 	    return _error_response(request, "db error: saving reviews - " + str(u.id))
-	data = serializers.serialize("json", [r])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(r))
 
 def lookup_review(request, review_id):
 	if request.method != 'GET':
@@ -265,8 +257,7 @@ def lookup_review(request, review_id):
 		r = models.Review.objects.get(pk=review_id)
 	except models.Review.DoesNotExist:
 		return _error_response(request, "Review not found")
-	data = serializers.serialize("json", [r])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(r))
 
 def delete_review(request, review_id):
 	if request.method != 'DELETE':
@@ -307,8 +298,7 @@ def update_review(request, review_id):
 		return _error_response(request, "No fields updated")
 
 	r.save()
-	data = serializers.serialize("json", [r])
-	return _success_response(request, data)
+	return _success_response(request, model_to_dict(r))
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
