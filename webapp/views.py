@@ -1,3 +1,7 @@
+import datetime
+from django.contrib.auth import hashers
+
+
 from django.shortcuts import render, get_object_or_404
 
 from django.http import JsonResponse
@@ -7,8 +11,6 @@ from django.core import serializers
 from django.http import HttpResponse, HttpResponseBadRequest
 
 from webapp import models
-
-from django.contrib.auth.models import User
 
 def create_stylist(request):
 	if request.method != 'POST':
@@ -82,14 +84,15 @@ def update_stylist(request, stylist_id):
 def create_user(request):
 	if request.method != 'POST':
 		return _error_response(request, "400 Bad Request - must make HTTP POST request")
-	if 'first_name' not in request.POST or 'last_name' not in request.POST or 'email' not in request.POST or 'password' not in request.POST or 'username' not in request.POST:
+	if 'f_name' not in request.POST or 'l_name' not in request.POST or 'email' not in request.POST or 'password' not in request.POST or 'username' not in request.POST:
 		return _error_response(request, "400 Bad Request - missing required fields")
 
-	u = User.objects.create_user(first_name=request.POST['first_name'], 
-					last_name=request.POST['last_name'],
-					email=request.POST['email'],
-					password=request.POST['password'],
-					username=request.POST['username'])
+	u = models.User(f_name=request.POST['f_name'], 
+					l_name=request.POST['l_name'],
+					password=hashers.make_password(request.POST['password']),
+					username=request.POST['username'],
+					date_joined=datetime.datetime.now(),
+					is_active=False)
 	try:
 	    u.save()
 	except db.Error:
@@ -102,8 +105,8 @@ def lookup_user(request, user_id):
 		return _error_response(request, "400 Bad Request - must make HTTP GET request")
 	# h = get_object_or_404(models.Hair, pk=hair_id)
 	try:
-		u = User.objects.get(pk=user_id)
-	except User.DoesNotExist:
+		u = models.User.objects.get(pk=user_id)
+	except models.User.DoesNotExist:
 		return _error_response(request, "User not found")
 	data = serializers.serialize("json", [u])
 	return _success_response(request, data)
@@ -112,8 +115,8 @@ def delete_user(request, user_id):
 	if request.method != 'DELETE':
 		return _error_response(request, "400 Bad Request - must make HTTP DELETE request")
 	try:
-		u = User.objects.get(pk=user_id)
-	except User.DoesNotExist:
+		u = models.User.objects.get(pk=user_id)
+	except models.User.DoesNotExist:
 		return _error_response(request, "User not found")
 	u.delete()
 	return _success_response(request)
@@ -122,7 +125,7 @@ def update_user(request, user_id):
 	if request.method != 'POST':
 		return _error_response(request, "400 Bad Request - must make HTTP POST request")
 	try:
-		u = User.objects.get(pk=user_id)
+		u = models.User.objects.get(pk=user_id)
 	except User.DoesNotExist:
 		return _error_response(request, "User not found")
 
@@ -130,11 +133,11 @@ def update_user(request, user_id):
 	if 'username' in request.POST:
 		u.username = request.POST['username']
 		changed = True
-	if 'first_name' in request.POST:
-		u.first_name = request.POST['first_name']
+	if 'f_name' in request.POST:
+		u.f_name = request.POST['f_name']
 		changed = True
-	if 'last_name' in request.POST:
-		u.last_name = request.POST['last_name']
+	if 'l_name' in request.POST:
+		u.l_name = request.POST['l_name']
 		changed = True
 	if 'email' in request.POST:
 		u.email = request.POST['email']
@@ -159,10 +162,7 @@ def update_user(request, user_id):
 def create_hair(request):
 	if request.method != 'POST':
 		return _error_response(request, "400 Bad Request - must make HTTP POST request")
-	if 'location' not in request.POST or 'price' not in request.POST or 'hair_phone_number' not in request.POST or 'stylist' not in request.POST:     
-		# 'price' not in request.POST or     
-		# 'hair_phone_number' not in request.POST or   
-		# 'stylist' not in request.POST:
+	if 'location' not in request.POST or 'price' not in request.POST or 'hair_phone_number' not in request.POST or 'stylist' not in request.POST:
 		return _error_response(request, "400 Bad Request - missing required fields")
 
 	h = models.Hair(location=request.POST['location'], 
@@ -241,13 +241,13 @@ def create_review(request):
 		return _error_response(request, "400 Bad Request - must make HTTP POST request")
 	if 'title' not in request.POST or 'body' not in request.POST or 'author' not in request.POST or 'rating' not in request.POST:      
 		return _error_response(request, "400 Bad Request - missing required fields")
-	if not User.objects.filter(pk=int(request.POST['author'])).exists():
+	if not models.User.objects.filter(pk=request.POST['author']).exists():
 		return _error_response("User does not exist")
-	u = User.objects.get(pk=int(request.POST['author']))
+	u = models.User.objects.get(pk=request.POST['author'])
 
 	r = models.Review(title=request.POST['title'],
 					body=request.POST['body'],
-					author=u.id,
+					author=u,
 					rating=request.POST['rating'],
 					review_upvotes=0)
 	try:

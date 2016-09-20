@@ -1,6 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
 
+class User(models.Model):
+    username = models.CharField(max_length=24, unique=True)
+    date_joined = models.DateTimeField()
+    f_name = models.CharField(max_length=16)
+    l_name = models.CharField(max_length=16)
+    password = models.CharField(max_length=96)
+    is_active = models.BooleanField()
 
 class Hair(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -14,7 +20,7 @@ class Review(models.Model):
 	id = models.AutoField(primary_key=True)
 	title = models.CharField(max_length=30)
 	body = models.TextField()
-	author = models.ForeignKey(User, unique=True)
+	author = models.ForeignKey(webapp.User, unique=True)
 	rating = models.IntegerField(default=0)
 	review_upvotes =models.IntegerField(default=0)
 

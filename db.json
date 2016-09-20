@@ -45,77 +45,40 @@
 			"client_gender" : "f"
 		}
 	},
-
 	{
-	    "model": "auth.user",
+	    "model": "webapp.User",
 	    "pk": 1,
-	    "fields": {
-	        "password": "pbkdf2_sha256$20000$lqX7n4UrWXCz$kp0e1AD4bitGqiLBFUD4FtBI69moW1C+z22HmQG6c/E=",
-	        "username": "admin",
-	        "is_active": true,
-	        "is_superuser": true,
-	        "is_staff": true,
-	        "last_login": "2016-09-15T21:36:12.893Z",
-	        "email": "cyt3ea@virginia.edu",
-	        "date_joined": "2016-09-15T21:35:36.815Z",
-	        "last_name": "",
-	        "user_permissions": [],
-	        "first_name": "",
-	        "groups": []
-	    }
-	},
-	{
-	    "model": "auth.user",
-	    "pk": 2,
 	    "fields": {
 	        "password": "pbkdf2_sha256$20000$5LD1OE8kDAmT$/h3CYwyGJmKbCjcPb1g51qHSMS4hIDsWCz1SGZCXbGU=",
 	        "username": "cyt3ea",
 	        "is_active": true,
-	        "is_superuser": false,
-	        "is_staff": false,
-	        "last_login": null,
-	        "email": "cyt3ea@virginia.edu",
 	        "date_joined": "2016-09-15T21:36:27Z",
-	        "last_name": "Tsou",
-	        "user_permissions": [],
-	        "first_name": "Christine",
-	        "groups": []
+	        "l_name": "Tsou",
+	        "f_name": "Christine"
 	    }
 	},
 	{
-	    "model": "auth.user",
-	    "pk": 3,
+	    "model": "webapp.User",
+	    "pk": 2,
 	    "fields": {
 	        "password": "pbkdf2_sha256$20000$uquHkHUv0oqJ$hXxpAtwtX6p7vld3RnDTc4U3JEiniLqhDbD7so8FolI=",
 	        "username": "cp6up",
 	        "is_active": true,
-	        "is_superuser": false,
-	        "is_staff": false,
-	        "last_login": null,
-	        "email": "cp6up@virginia.edu",
 	        "date_joined": "2016-09-15T21:36:37Z",
-	        "last_name": "Park",
-	        "user_permissions": [],
-	        "first_name": "Candace",
-	        "groups": []
+	        "l_name": "Park",
+	        "f_name": "Candace"
 	    }
 	},
 	{
-	    "model": "auth.user",
-	    "pk": 4,
+	    "model": "webapp.User",
+	    "pk": 3,
 	    "fields": {
 	        "password": "pbkdf2_sha256$20000$OlSDDc91kSen$QS9pGxvRtmL9+8HkI9KNeEjwUZjiyYqR9tNobT0Tbt0=",
 	        "username": "jw3qz",
 	        "is_active": true,
-	        "is_superuser": false,
-	        "is_staff": false,
-	        "last_login": null,
-	        "email": "jw3qz@virginia.edu",
 	        "date_joined": "2016-09-15T21:36:52Z",
-	        "last_name": "Wu",
-	        "user_permissions": [],
-	        "first_name": "James",
-	        "groups": []
+	        "l_name": "Wu",
+	        "f_name": "James"
 	    }
 	},
 
@@ -151,7 +114,7 @@
 		"fields": {
 			"title" : "Electrifying",
 			"body" : "I didn't really care what I got as long as my hair made the ladies melt, and that's exactly what I got. They melted because my hair has lazers attached to it. Pew pew.",
-			"author" : 4,
+			"author" : 1,
 			"rating" : 5,
 			"review_upvotes" : 10	
 		}
