@@ -229,6 +229,35 @@ def update_hair(request, hair_id):
 	h.save()
 	return _success_response(request, model_to_dict(h))
 
+def all_hairs(request):
+	if request.method != 'GET':
+		return _error_response(request, "Must make GET request")
+	try:
+		hairs = _all_hairs()
+	except db.Error:
+		return _error_response(request, "db error")
+	return _success_response(request, {'all_hairs': hairs})
+
+def _all_hairs():
+	hairs = models.Hair.objects.all()
+	hairs = list(map(model_to_dict, hairs))
+	return hairs
+
+def popular_hairs(request):
+	if request.method != 'GET':
+		return _error_response(request, "Must make GET request")
+	try:
+		hairs = _popular_hairs()
+	except db.Error:
+		return _error_response(request, "db error")
+
+	return _success_response(request, {'popular_hairs': hairs})
+
+def _popular_hairs():
+	hairs = models.Hair.objects.order_by('-hair_upvotes')[:3]
+	hairs = list(map(model_to_dict, hairs))
+	return hairs
+
 def create_review(request):
 	if request.method != 'POST':
 		return _error_response(request, "400 Bad Request - must make HTTP POST request")
