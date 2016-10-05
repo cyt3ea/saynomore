@@ -3,10 +3,10 @@ models:
     external_links:
       -  mysql:db
     volumes:
-      - ./saynomore:/app
+      - ./models:/app
     ports:
       - "8001:8000"
-    command: bash -c "python manage.py makemigrations webapp && python manage.py migrate && python manage.py loaddata db.json && mod_wsgi-express start-server --working-directory ./ --reload-on-changes saynomore/wsgi.py"
+    command: bash -c "python manage.py makemigrations webapp && python manage.py migrate && python manage.py loaddata db.json && mod_wsgi-express start-server --working-directory ./ --reload-on-changes models/wsgi.py"
 
 
 exp:
@@ -14,7 +14,7 @@ exp:
     links:
       - models:models-api
     volumes:
-      - ./exp/:/app
+      - ./exp:/app
     ports:
       - "8002:8000"
     command: bash -c "mod_wsgi-express start-server --working-directory ./ --reload-on-changes exp/wsgi.py"
@@ -24,7 +24,7 @@ web:
     links:
       - exp:exp-api
     volumes:
-      - ./web/:/app
+      - ./web:/app
     ports:
       - "8000:8000"
     command: bash -c "mod_wsgi-express start-server --working-directory ./ --reload-on-changes web/wsgi.py"
