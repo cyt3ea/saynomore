@@ -16,9 +16,9 @@ from webapp import models
 
 def create_stylist(request):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	if 'stylist_phone_number' not in request.POST or 'years_experience' not in request.POST or 'location' not in request.POST or 'client_gender' not in request.POST:
-		return _error_response(request, "400 Bad Request - missing required fields")
+		return _error_response(request, "missing required fields")
 	s = models.Stylist(stylist_phone_number=request.POST['stylist_phone_number'],
 					   years_experience=request.POST['years_experience'],
 					   location = request.POST['location'],
@@ -32,7 +32,7 @@ def create_stylist(request):
 
 def lookup_stylist(request, stylist_id):
 	if request.method != 'GET':
-		return _error_response(request, "400 Bad Request - must make HTTP GET request")
+		return _error_response(request, "must make HTTP GET request")
 	# h = get_object_or_404(models.Hair, pk=hair_id)
 	try:
 		s = models.Stylist.objects.get(pk=stylist_id)
@@ -42,7 +42,7 @@ def lookup_stylist(request, stylist_id):
 
 def delete_stylist(request, stylist_id):
 	if request.method != 'DELETE':
-		return _error_response(request, "400 Bad Request - must make HTTP DELETE request")
+		return _error_response(request, "must make HTTP DELETE request")
 	try:
 		s = models.Stylist.objects.get(pk=stylist_id)
 	except models.Stylist.DoesNotExist:
@@ -53,7 +53,7 @@ def delete_stylist(request, stylist_id):
 
 def update_stylist(request, stylist_id):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	try:
 		s = models.Stylist.objects.get(pk=stylist_id)
 	except models.Stylist.DoesNotExist:
@@ -82,9 +82,9 @@ def update_stylist(request, stylist_id):
 
 def create_user(request):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	if 'f_name' not in request.POST or 'l_name' not in request.POST or  'password' not in request.POST or 'username' not in request.POST:
-		return _error_response(request, "400 Bad Request - missing required fields")
+		return _error_response(request, "missing required fields")
 
 	u = models.User(f_name=request.POST['f_name'], 
 					l_name=request.POST['l_name'],
@@ -100,7 +100,7 @@ def create_user(request):
 
 def lookup_user(request, user_id):
 	if request.method != 'GET':
-		return _error_response(request, "400 Bad Request - must make HTTP GET request")
+		return _error_response(request, "must make HTTP GET request")
 	# h = get_object_or_404(models.Hair, pk=hair_id)
 	try:
 		u = models.User.objects.get(pk=user_id)
@@ -110,7 +110,7 @@ def lookup_user(request, user_id):
 
 def delete_user(request, user_id):
 	if request.method != 'DELETE':
-		return _error_response(request, "400 Bad Request - must make HTTP DELETE request")
+		return _error_response(request, "must make HTTP DELETE request")
 	try:
 		u = models.User.objects.get(pk=user_id)
 	except models.User.DoesNotExist:
@@ -120,7 +120,7 @@ def delete_user(request, user_id):
 
 def update_user(request, user_id):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	try:
 		u = models.User.objects.get(pk=user_id)
 	except User.DoesNotExist:
@@ -157,9 +157,9 @@ def update_user(request, user_id):
 # print(response.content)
 def create_hair(request):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	if 'location' not in request.POST or 'price' not in request.POST or 'hair_phone_number' not in request.POST or 'stylist' not in request.POST:
-		return _error_response(request, "400 Bad Request - missing required fields")
+		return _error_response(request, "missing required fields")
 
 	h = models.Hair(location=request.POST['location'], 
 					price=request.POST['price'],
@@ -174,7 +174,7 @@ def create_hair(request):
 
 def lookup_hair(request, hair_id):
 	if request.method != 'GET':
-		return _error_response(request, "400 Bad Request - must make HTTP GET request")
+		return _error_response(request, "must make HTTP GET request")
 	# h = get_object_or_404(models.Hair, pk=hair_id)
 	try:
 		h = models.Hair.objects.get(pk=hair_id)
@@ -184,7 +184,7 @@ def lookup_hair(request, hair_id):
 
 def delete_hair(request, hair_id):
 	if request.method != 'DELETE':
-		return _error_response(request, "400 Bad Request - must make HTTP DELETE request")
+		return _error_response(request, "must make HTTP DELETE request")
 	try:
 		h = models.Hair.objects.get(pk=hair_id)
 	except models.Hair.DoesNotExist:
@@ -200,7 +200,7 @@ def delete_hair(request, hair_id):
 # print(response.content)
 def update_hair(request, hair_id):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	try:
 		h = models.Hair.objects.get(pk=hair_id)
 	except models.Hair.DoesNotExist:
@@ -260,9 +260,9 @@ def _popular_hairs():
 
 def create_review(request):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	if 'title' not in request.POST or 'body' not in request.POST or 'author' not in request.POST or 'rating' not in request.POST:      
-		return _error_response(request, "400 Bad Request - missing required fields")
+		return _error_response(request, "missing required fields")
 	if not models.User.objects.filter(pk=request.POST['author']).exists():
 		return _error_response("User does not exist")
 	u = models.User.objects.get(pk=request.POST['author'])
@@ -280,7 +280,7 @@ def create_review(request):
 
 def lookup_review(request, review_id):
 	if request.method != 'GET':
-		return _error_response(request, "400 Bad Request - must make HTTP GET request")
+		return _error_response(request, "must make HTTP GET request")
 	# r = get_object_or_404(models.Review, pk=review_id)
 	try:
 		r = models.Review.objects.get(pk=review_id)
@@ -290,7 +290,7 @@ def lookup_review(request, review_id):
 
 def delete_review(request, review_id):
 	if request.method != 'DELETE':
-		return _error_response(request, "400 Bad Request - must make HTTP DELETE request")
+		return _error_response(request, "must make HTTP DELETE request")
 	try:
 		r = models.Review.objects.get(pk=review_id)
 	except models.Review.DoesNotExist:
@@ -300,7 +300,7 @@ def delete_review(request, review_id):
 
 def update_review(request, review_id):
 	if request.method != 'POST':
-		return _error_response(request, "400 Bad Request - must make HTTP POST request")
+		return _error_response(request, "must make HTTP POST request")
 	try:
 		r = models.Review.objects.get(pk=review_id)
 	except models.Review.DoesNotExist:
