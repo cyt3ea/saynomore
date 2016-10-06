@@ -1,0 +1,13 @@
+<h1> SAYNOMORE </h1>
+{% for key, list in resp.items %}
+	{% for hairs in list %}
+		<div>
+			<h3> Hair {{hairs.id}} </h3>
+			{{hairs.stylist}} <br>
+			{{hairs.price}} <br>
+			{{hairs.hair_upvotes}}
+		</div>
+	{% endfor %}
+{% endfor %}
+
+<!-- {"all_hairs": [{"id": 1, "stylist": "Robby McJimbers", "hair_phone_number": "7771110000", "price": "18.77", "location": "Kentucky", "hair_upvotes": 2}, {"id": 2, "stylist": "Clark McHarrington", "hair_phone_number": "1119990000", "price": "7.99", "location": "Virginia", "hair_upvotes": 1}]} -->

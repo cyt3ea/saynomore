@@ -11,9 +11,9 @@ def index(request):
 	else:
 		req = urllib.request.Request('http://exp-api:8000/all_hairs/')
 		resp_json = urllib.request.urlopen(req).read().decode('utf8')
-		resp = json.loads(resp_json)
-		return JsonResponse(resp)
-	return HttpResponse("Index page")
+		resp = json.loads(resp_json)['resp']
+		# return JsonResponse(resp)
+		return render(request, 'frontend/index.html', {'resp': resp})
 
 def hair_detail(request, hair_id):
 	return HttpResponse("Hair detail " + hair_id)
