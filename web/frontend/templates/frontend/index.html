@@ -2,10 +2,10 @@
 {% for key, list in resp.items %}
 	{% for hairs in list %}
 		<div>
-			<h3> Hair {{hairs.id}} </h3>
-			{{hairs.stylist}} <br>
-			{{hairs.price}} <br>
-			{{hairs.hair_upvotes}}
+			<a href="/hair/{{hairs.id}}/"><h3> Hair {{hairs.id}} </h3></a>
+			Stylist: {{hairs.stylist}} <br>
+			Price: {{hairs.price}} <br>
+			Number of Upvotes: {{hairs.hair_upvotes}}
 		</div>
 	{% endfor %}
 {% endfor %}

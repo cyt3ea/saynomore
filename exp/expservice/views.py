@@ -22,3 +22,21 @@ def popular_hairs(request):
 		resp_json = urllib.request.urlopen(req).read().decode('utf8')
 		resp = json.loads(resp_json)
 		return JsonResponse(resp)
+
+def detail_hair(request, hair_id):
+	if request.method != 'GET':
+		return _error_response(request, 'Must be GET request')
+	else:
+		req = urllib.request.Request('http://models-api:8000/api/v1/hairs/' + hair_id + '/')
+		resp_json = urllib.request.urlopen(req).read().decode('utf8')
+		resp = json.loads(resp_json)
+		return JsonResponse(resp)
+
+def _error_response(request, error_msg):
+	return JsonResponse({'ok': False, 'error': error_msg})
+
+def _success_response(request, resp=None):
+	if resp:
+		return JsonResponse({'ok': True, 'resp': resp})
+	else:
+		return JsonResponse({'ok': True})

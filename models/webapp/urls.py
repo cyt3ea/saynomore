@@ -18,20 +18,20 @@ from django.contrib import admin
 from webapp import views
 
 urlpatterns = [
-    url(r'^api/v1/users/create$/', views.create_user),
-    url(r'^api/v1/users/(\d+)$/', views.lookup_user),
-    url(r'^api/v1/users/delete/(\d+)$/', views.delete_user),
-    url(r'^api/v1/users/update/(\d+)$/', views.update_user),
+    url(r'^api/v1/users/create/$', views.create_user),
+    url(r'^api/v1/users/(\d+)/$', views.lookup_user),
+    url(r'^api/v1/users/delete/(\d+)/$', views.delete_user),
+    url(r'^api/v1/users/update/(\d+)/$', views.update_user),
 
-    url(r'^api/v1/hairs/create$/', views.create_hair),
-    url(r'^api/v1/hairs/(\d+)$/', views.lookup_hair),
+    url(r'^api/v1/hairs/create/$', views.create_hair),
+    url(r'^api/v1/hairs/(\d+)/$', views.lookup_hair),
     url(r'^api/v1/hairs/delete/(\d+)/$', views.delete_hair),
     url(r'^api/v1/hairs/update/(\d+)/$', views.update_hair),
     url(r'^api/v1/hairs/popular_hairs/$', views.popular_hairs),
     url(r'^api/v1/hairs/all_hairs/$', views.all_hairs),
 
-    url(r'^api/v1/reviews/create$/', views.create_review),
-    url(r'^api/v1/reviews/(\d+)$/', views.lookup_review),
+    url(r'^api/v1/reviews/create/$', views.create_review),
+    url(r'^api/v1/reviews/(\d+)/$', views.lookup_review),
     url(r'^api/v1/reviews/delete/(\d+)/$', views.delete_review),
     url(r'^api/v1/reviews/update/(\d+)/$', views.update_review),
 

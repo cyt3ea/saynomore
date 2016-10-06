@@ -20,5 +20,6 @@ from expservice import views
 urlpatterns = [
 	url(r'^all_hairs/$', views.all_hairs),
     url(r'^popular_hairs/$', views.popular_hairs),
+    url(r'^hairs/(\d+)/$', views.detail_hair),
 
 ]
