@@ -32,6 +32,25 @@ def detail_hair(request, hair_id):
 		resp = json.loads(resp_json)
 		return JsonResponse(resp)
 
+def all_stylists(request):
+	if request.method != 'GET':
+		return _error_response(request, 'Must be GET request')
+	else:
+		req = urllib.request.Request('http://models-api:8000/api/v1/stylists/all_stylists/')
+		resp_json = urllib.request.urlopen(req).read().decode('utf8')
+		resp = json.loads(resp_json)
+		return JsonResponse(resp)
+
+def detail_stylist(request, stylist_id):
+	if request.method != 'GET':
+		return _error_response(request, 'Must be GET request')
+	else:
+		req = urllib.request.Request('http://models-api:8000/api/v1/stylists/' + stylist_id + '/')
+		resp_json = urllib.request.urlopen(req).read().decode('utf8')
+		resp = json.loads(resp_json)
+		return JsonResponse(resp)
+
+
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
 

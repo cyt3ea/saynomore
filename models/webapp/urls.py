@@ -39,4 +39,5 @@ urlpatterns = [
     url(r'^api/v1/stylists/(\d+)/$', views.lookup_stylist, name='lookup-stylist'),
     url(r'^api/v1/stylists/delete/(\d+)/$', views.delete_stylist, name='delete-stylist'),
     url(r'^api/v1/stylists/update/(\d+)/$', views.update_stylist, name='update-stylist'),
+    url(r'^api/v1/stylists/all_stylists/$', views.all_stylists, name='all-stylists'),
 ]
