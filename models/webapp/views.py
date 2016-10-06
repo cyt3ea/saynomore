@@ -79,6 +79,20 @@ def update_stylist(request, stylist_id):
 	s.save()
 	return _success_response(request, model_to_dict(s))
 
+def all_stylists(request):
+	if request.method != 'GET':
+		return _error_response(request, "Must make GET request")
+	try:
+		stylists = _all_stylists()
+	except db.Error:
+		return _error_response(request, "db error")
+	return _success_response(request, {'all_stylists': stylists})
+
+def _all_stylists():
+	stylists = models.Stylist.objects.all()
+	stylists = list(map(model_to_dict, stylists))
+	return stylists
+
 
 def create_user(request):
 	if request.method != 'POST':

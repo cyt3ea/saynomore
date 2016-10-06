@@ -20,4 +20,5 @@ from frontend import views
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^hair/(\d+)/$', views.hair_detail),
+    url(r'^stylist/(\d+)/$', views.stylist_detail),
 ]
