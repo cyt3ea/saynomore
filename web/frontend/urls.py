@@ -18,7 +18,7 @@ from django.contrib import admin
 from frontend import views
 
 urlpatterns = [
-    url(r'^$', views.index),
-    url(r'^hair/(\d+)/$', views.hair_detail),
-    url(r'^stylist/(\d+)/$', views.stylist_detail),
+    url(r'^$', views.index, name="index"),
+    url(r'^hair/(\d+)/$', views.hair_detail, name="hair-detail"),
+    url(r'^stylist/(\d+)/$', views.stylist_detail, name="stylist-detail"),
 ]
