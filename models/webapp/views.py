@@ -17,12 +17,16 @@ from webapp import models
 def create_stylist(request):
 	if request.method != 'POST':
 		return _error_response(request, "must make HTTP POST request")
-	if 'stylist_phone_number' not in request.POST or 'years_experience' not in request.POST or 'location' not in request.POST or 'client_gender' not in request.POST:
+	if 'user' not in request.POST or 'stylist_phone_number' not in request.POST or 'years_experience' not in request.POST or 'location' not in request.POST or 'client_gender' not in request.POST:
 		return _error_response(request, "missing required fields")
+	if not models.User.objects.filter(pk=request.POST['user']).exists():
+		return _error_response("User does not exist")
+	u = models.User.objects.get(pk=request.POST['user'])
 	s = models.Stylist(stylist_phone_number=request.POST['stylist_phone_number'],
 					   years_experience=request.POST['years_experience'],
 					   location = request.POST['location'],
-	       			   client_gender = request.POST['client_gender'])
+	       			   client_gender = request.POST['client_gender'],
+	       			   user = u)
 
 	try:
 		s.save()
@@ -71,6 +75,12 @@ def update_stylist(request, stylist_id):
 		changed = True
 	if 'client_gender' in request.POST:
 		s.client_gender = request.POST['client_gender']
+		changed = True
+	if 'user' in request.POST:
+		if not models.User.objects.filter(pk=request.POST['user']).exists():
+			return _error_response("User does not exist")
+		u = models.User.objects.get(pk=request.POST['user'])
+		s.author = u
 		changed = True
 
 	if not changed:
@@ -172,13 +182,22 @@ def update_user(request, user_id):
 def create_hair(request):
 	if request.method != 'POST':
 		return _error_response(request, "must make HTTP POST request")
-	if 'location' not in request.POST or 'price' not in request.POST or 'hair_phone_number' not in request.POST or 'stylist' not in request.POST:
+	if 'name' not in request.POST or 'author' not in request.POST or 'location' not in request.POST or 'price' not in request.POST or 'hair_phone_number' not in request.POST or 'stylist' not in request.POST:
 		return _error_response(request, "missing required fields")
+	if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
+		return _error_response("Stylist does not exist")
+	s = models.Stylist.objects.get(pk=request.POST['stylist'])
+
+	if not models.User.objects.filter(pk=request.POST['author']).exists():
+		return _error_response("User does not exist")
+	u = models.User.objects.get(pk=request.POST['author'])
 
 	h = models.Hair(location=request.POST['location'], 
 					price=request.POST['price'],
 					hair_phone_number=request.POST['hair_phone_number'],
-					stylist=request.POST['stylist'],
+					stylist=s,
+					author=u,
+					name=request.POST['name'],
 					hair_upvotes=0)
 	try:
 	    h.save()
@@ -231,10 +250,22 @@ def update_hair(request, hair_id):
 		h.hair_phone_number = request.POST['hair_phone_number']
 		changed = True
 	if 'stylist' in request.POST:
-		h.stylist = request.POST['stylist']
+		if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
+			return _error_response("Stylist does not exist")
+		s = models.Stylist.objects.get(pk=request.POST['stylist'])
+		h.author = s
+		changed = True
+	if 'author' in request.POST:
+		if not models.User.objects.filter(pk=request.POST['author']).exists():
+			return _error_response("User does not exist")
+		u = models.User.objects.get(pk=request.POST['author'])
+		h.author = u
 		changed = True
 	if 'hair_upvotes' in request.POST:
 		h.hair_upvotes = request.POST['hair_upvotes']
+		changed = True
+	if 'name' in request.POST:
+		h.name = request.POST['name']
 		changed = True
 
 	if not changed:
@@ -275,17 +306,21 @@ def _popular_hairs():
 def create_review(request):
 	if request.method != 'POST':
 		return _error_response(request, "must make HTTP POST request")
-	if 'title' not in request.POST or 'body' not in request.POST or 'author' not in request.POST or 'rating' not in request.POST:      
+	if 'stylist' not in request.POST or 'title' not in request.POST or 'body' not in request.POST or 'author' not in request.POST or 'rating' not in request.POST:      
 		return _error_response(request, "missing required fields")
 	if not models.User.objects.filter(pk=request.POST['author']).exists():
 		return _error_response("User does not exist")
 	u = models.User.objects.get(pk=request.POST['author'])
+	if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
+		return _error_response("Stylist does not exist")
+	s = models.Stylist.objects.get(pk=request.Post['stylist'])
 
 	r = models.Review(title=request.POST['title'],
 					body=request.POST['body'],
 					author=u,
 					rating=request.POST['rating'],
-					review_upvotes=0)
+					review_upvotes=0,
+					stylist=s)
 	try:
 	    r.save()
 	except db.Error:
@@ -338,6 +373,12 @@ def update_review(request, review_id):
 		changed = True
 	if 'review_upvotes' in request.POST:
 		r.review_upvotes = request.POST['review_upvotes']
+		changed = True
+	if 'stylist' in request.POST:
+		if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
+			return _error_response("Stylist does not exist")
+		s = models.Stylist.objects.get(pk=request.POST['stylist'])
+		r.author = s
 		changed = True
 
 	if not changed:
