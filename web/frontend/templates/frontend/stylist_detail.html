@@ -1,7 +1,7 @@
-<h1> Stylist {{resp.id}} </h1>
+<h1> {{resp.user.f_name}} {{resp.user.l_name}} </h1>
 {% for key, value in resp.items %}
 	<div>
-		{%if key != 'id' %}
+		{%if key != 'id' and key != 'user' %}
 			{{key}} : {{value}}
 		{% endif %}
 	</div>

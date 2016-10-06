@@ -7,8 +7,8 @@
 {% for key, list in respHair.items %}
 	{% for hairs in list %}
 		<div>
-			<a href="/hair/{{hairs.id}}/"><h3> Hair {{hairs.id}} </h3></a>
-			Stylist: {{hairs.stylist}} <br>
+			<a href="/hair/{{hairs.id}}/"><h3> {{hairs.name}} </h3></a>
+			Stylist: {{hairs.stylist.user.f_name}} {{hairs.stylist.user.l_name}} <br>
 			Price: {{hairs.price}} <br>
 			Number of Upvotes: {{hairs.hair_upvotes}}
 		</div>
@@ -23,7 +23,7 @@
 {% for key, list in respStylists.items %}
 	{% for stylists in list %}
 		<div>
-			<a href="/stylist/{{stylists.id}}/"><h3> Stylist {{stylists.id}} </h3></a>
+			<a href="/stylist/{{stylists.id}}/"><h3> {{stylists.user.f_name}} {{stylists.user.l_name}} </h3></a>
 			Years Experience: {{stylists.years_experience}} <br>
 			Location: {{stylists.location}} <br>
 		</div>

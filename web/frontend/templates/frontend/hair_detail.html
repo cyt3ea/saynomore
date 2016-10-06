@@ -2,7 +2,13 @@
 {% for key, value in resp.items %}
 	<div>
 		{%if key != 'id' %}
-			{{key}} : {{value}}
+			{% if key == 'author' %}
+				author: {{value.f_name}} {{value.l_name}}
+			{% elif key == 'stylist' %}
+				stylist: {{value.user.f_name}} {{value.user.l_name}}
+			{% else %}
+				{{key}} : {{value}}
+			{% endif %}
 		{% endif %}
 	</div>
 {% endfor %}

@@ -6,8 +6,10 @@
 			"location" : "Kentucky",
 			"price" : 18.77,
 			"hair_phone_number" : "7771110000",
-			"stylist" : "Robby McJimbers",
-			"hair_upvotes" : 2	
+			"stylist" : 1,
+			"hair_upvotes" : 2,
+			"author" : 1,
+			"name": "McFlurry"
 		}
 
 	},
@@ -20,8 +22,10 @@
 			"location" : "Virginia",
 			"price" : 7.99,
 			"hair_phone_number" : "1119990000",
-			"stylist" : "Clark McHarrington",
-			"hair_upvotes" : 1	
+			"stylist" : 2,
+			"hair_upvotes" : 1,
+			"author": 3,
+			"name": "The Womanizer"
 		}
 	},
 	{
@@ -31,7 +35,8 @@
 			"stylist_phone_number" : "9999991010",
 			"years_experience" : 2,
 			"location" : "South Dakota",
-			"client_gender" : "m"
+			"client_gender" : "m",
+			"user": 1
 		}
 	},
 
@@ -42,7 +47,8 @@
 			"stylist_phone_number" : "2337556888",
 			"years_experience" : 7,
 			"location" : "New York",
-			"client_gender" : "f"
+			"client_gender" : "f",
+			"user": 2
 		}
 	},
 	{
@@ -50,11 +56,11 @@
 	    "pk": 1,
 	    "fields": {
 	        "password": "pbkdf2_sha256$20000$5LD1OE8kDAmT$/h3CYwyGJmKbCjcPb1g51qHSMS4hIDsWCz1SGZCXbGU=",
-	        "username": "cyt3ea",
+	        "username": "mcjimbers",
 	        "is_active": true,
 	        "date_joined": "2016-09-15T21:36:27Z",
-	        "l_name": "Tsou",
-	        "f_name": "Christine"
+	        "l_name": "McJimbers",
+	        "f_name": "Robby"
 	    }
 	},
 	{
@@ -62,11 +68,11 @@
 	    "pk": 2,
 	    "fields": {
 	        "password": "pbkdf2_sha256$20000$uquHkHUv0oqJ$hXxpAtwtX6p7vld3RnDTc4U3JEiniLqhDbD7so8FolI=",
-	        "username": "cp6up",
+	        "username": "charrington",
 	        "is_active": true,
 	        "date_joined": "2016-09-15T21:36:37Z",
-	        "l_name": "Park",
-	        "f_name": "Candace"
+	        "l_name": "McHarrington",
+	        "f_name": "Clark"
 	    }
 	},
 	{
@@ -74,11 +80,11 @@
 	    "pk": 3,
 	    "fields": {
 	        "password": "pbkdf2_sha256$20000$OlSDDc91kSen$QS9pGxvRtmL9+8HkI9KNeEjwUZjiyYqR9tNobT0Tbt0=",
-	        "username": "jw3qz",
+	        "username": "tharolds",
 	        "is_active": true,
 	        "date_joined": "2016-09-15T21:36:52Z",
-	        "l_name": "Wu",
-	        "f_name": "James"
+	        "l_name": "Harolds",
+	        "f_name": "Timmy"
 	    }
 	},
 
@@ -90,7 +96,8 @@
 			"body" : "After I got this hairstyle I became a groovy hip fellar, and you can too.",
 			"author" : 2,
 			"rating" : 4,
-			"review_upvotes" : 5	
+			"review_upvotes" : 5,
+			"stylist": 1
 		}
 
 	},
@@ -104,7 +111,8 @@
 			"body" : "All I wanted was a simple high fade with a little pomeranian on my head but she literally gave me the cool whip and snap hair.",
 			"author" : 3,
 			"rating" : 1,
-			"review_upvotes" : 3	
+			"review_upvotes" : 3,
+			"stylist": 1
 		}
 	},
 
@@ -116,7 +124,8 @@
 			"body" : "I didn't really care what I got as long as my hair made the ladies melt, and that's exactly what I got. They melted because my hair has lazers attached to it. Pew pew.",
 			"author" : 1,
 			"rating" : 5,
-			"review_upvotes" : 10	
+			"review_upvotes" : 10,
+			"stylist": 2	
 		}
 	}
 ]
