@@ -1,5 +1,5 @@
-<h1> {{resp.user.f_name}} {{resp.user.l_name}} </h1>
-{% for key, value in resp.items %}
+<h1> {{stylist.user.f_name}} {{stylist.user.l_name}} </h1>
+{% for key, value in stylist.items %}
 	<div>
 		{%if key != 'id' and key != 'user' %}
 			{{key}} : {{value}}
@@ -10,5 +10,19 @@
 <form action="{% url 'index' %}">
     <input type="submit" value="Back" />
 </form>
+
+<h1> Reviews </h1>
+
+{% for key, list in reviews.items %}
+	{% for review in list %}
+		<div>
+			<h3>{{review.title}}</h3>
+			<p> {{review.body}} </p>
+			Written by {{review.author.f_name}} {{review.author.l_name}} | Rating: {{review.rating}} | Review Upvotes: {{review.review_upvotes}}
+		</div>
+		<br><hr>
+	{% endfor %}
+{% endfor %}
+
 
 <!-- {"hair_phone_number": "7771110000", "hair_upvotes": 2, "location": "Kentucky", "stylist": "Robby McJimbers", "id": 1, "price": "18.77"} -->

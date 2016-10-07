@@ -14,7 +14,7 @@ def all_hairs(request):
 		resp = json.loads(resp_json)
 		all_hairs = resp["resp"]["all_hairs"]
 		for hair in all_hairs:
-			getHairFK(hair)
+			getUserAndStylist(hair)
 		return JsonResponse(resp)
 
 def popular_hairs(request):
@@ -26,7 +26,7 @@ def popular_hairs(request):
 		resp = json.loads(resp_json)
 		popular_hairs = resp["resp"]["popular_hairs"]
 		for hair in popular_hairs:
-			getHairFK(hair)
+			getUserAndStylist(hair)
 		return JsonResponse(resp)
 
 def detail_hair(request, hair_id):
@@ -37,10 +37,10 @@ def detail_hair(request, hair_id):
 		resp_json = urllib.request.urlopen(req).read().decode('utf8')
 		resp = json.loads(resp_json)
 		hair = resp["resp"]
-		getHairFK(hair)
+		getUserAndStylist(hair)
 		return JsonResponse(resp)
 
-def getHairFK(hair):
+def getUserAndStylist(hair):
 	reqStylist = urllib.request.Request('http://models-api:8000/api/v1/stylists/' + str(hair["stylist"]) + '/')
 	resp_jsonStylist = urllib.request.urlopen(reqStylist).read().decode('utf8')
 	respStylist = json.loads(resp_jsonStylist)
@@ -76,6 +76,18 @@ def detail_stylist(request, stylist_id):
 		resp = json.loads(resp_json)
 		stylist = resp["resp"]
 		getStylistFK(stylist)
+		return JsonResponse(resp)
+
+def review_stylist(request, stylist_id):
+	if request.method != 'GET':
+		return _error_response(request, 'Must be GET request')
+	else:
+		req = urllib.request.Request('http://models-api:8000/api/v1/stylists/reviews/' + stylist_id + '/')
+		resp_json = urllib.request.urlopen(req).read().decode('utf8')
+		resp = json.loads(resp_json)
+		stylist_reviews = resp["resp"]["reviews"]
+		for review in stylist_reviews:
+			getUserAndStylist(review)
 		return JsonResponse(resp)
 
 def getStylistFK(stylist):

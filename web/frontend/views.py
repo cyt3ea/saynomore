@@ -32,11 +32,14 @@ def stylist_detail(request, stylist_id):
 	if request.method != 'GET':
 		return _error_response(request, 'Must be GET request')
 	else:
-		req = urllib.request.Request('http://exp-api:8000/api/v1/stylists/' + stylist_id + '/')
-		resp_json = urllib.request.urlopen(req).read().decode('utf8')
-		resp = json.loads(resp_json)['resp']
+		reqStylist = urllib.request.Request('http://exp-api:8000/api/v1/stylists/' + stylist_id + '/')
+		resp_jsonStylist = urllib.request.urlopen(reqStylist).read().decode('utf8')
+		respStylist = json.loads(resp_jsonStylist)['resp']
 		# return JsonResponse(resp)
-		return render(request, 'frontend/stylist_detail.html', {'resp': resp})
+		reqReviews = urllib.request.Request('http://exp-api:8000/api/v1/stylists/reviews/' + stylist_id + '/')
+		resp_jsonReviews = urllib.request.urlopen(reqReviews).read().decode('utf8')
+		respReviews = json.loads(resp_jsonReviews)['resp']
+		return render(request, 'frontend/stylist_detail.html', {'stylist': respStylist, 'reviews': respReviews})
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
