@@ -19,7 +19,7 @@ from webapp import views
 
 urlpatterns = [
     url(r'^api/v1/users/create/$', views.create_user, name='create-user'),
-    url(r'^api/v1/users/(\d+)/$', views.lookup_user, name='lookup-user'),
+    url(r'^api/v1/users/(?P<user_id>\d+)/$', views.lookup_user, name='lookup-user'),
     url(r'^api/v1/users/delete/(?P<user_id>\d+)/$', views.delete_user, name='delete-user'),
     url(r'^api/v1/users/update/(?P<user_id>\d+)/$', views.update_user, name='update-user'),
 
@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^api/v1/hairs/delete/(?P<hair_id>\d+)/$', views.delete_hair, name='delete-hair'),
     url(r'^api/v1/hairs/update/(?P<hair_id>\d+)/$', views.update_hair, name='update-hair'),
     url(r'^api/v1/hairs/popular_hairs/$', views.popular_hairs, name='popular-hairs'),
-    url(r'^api/v1/hairs/all_hairs/$', views.all_hairs),
+    url(r'^api/v1/hairs/all_hairs/$', views.all_hairs, name='all-hairs' ),
 
     url(r'^api/v1/reviews/create/$', views.create_review, name='create-review'),
     url(r'^api/v1/reviews/(?P<review_id>\d+)/$', views.lookup_review, name='lookup-review'),

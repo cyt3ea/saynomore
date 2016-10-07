@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
+from django.utils import timezone
 from webapp.models import User, Hair, Review, Stylist
 
 # Create your tests here.
@@ -56,7 +57,54 @@ class ModelsTests(TestCase):
     def test_all_stylists(self):
     	response = self.client.get(reverse('all-stylists'))
     	print("All stylists in fixture: " + str(response.content))
-    	self.assertContains(response, 'stylist_phone_number')  
+    	self.assertContains(response, 'stylist_phone_number')
+
+    #TESTING HAIR MODEL BELOW
+    def test_create_hair(self):
+        data = {'location': 'TrashCan', 'price':9, 'hair_phone_number':'123456789', 'stylist':2, 'hair_upvotes': 9, 'author': 2, 'name': 'janx'}
+        response = self.client.post(reverse('create-hair'), data)
+        self.assertContains(response, 'price')
+
+    def test_lookup_hair(self):
+        response = self.client.get(reverse('lookup-hair', kwargs={'hair_id':1}))
+        self.assertContains(response, 'price')
+    
+    def test_delete_hair(self):
+        response=self.client.delete(reverse('delete-hair', kwargs={'hair_id':1}))
+        self.assertNotContains(response, 'price')
+
+    def test_update_hair(self):
+        data = {'hair_upvotes':15}
+        response=self.client.post(reverse('update-hair', kwargs={'hair_id':1}), data)
+        self.assertContains(response, 15)
+
+    def test_popular_hair(self):
+        response = self.client.get(reverse('popular-hairs'))
+        self.assertContains(response, 'price')
+
+    def test_all_hair(self):
+        response = self.client.get(reverse('all-hairs'))
+        #print("All hairs in fixture: " + str(response.content))
+        self.assertContains(response, 'price')  
+
+    #TESTING USER MODEL BELOW 
+    def test_create_user(self):
+        data = {'username':'jujuOnTheBeat', 'date_joined': timezone.now(), 'f_name': 'Nick', 'l_name': 'Qua', 'password':'jujubeans', 'is_active': 'true'}
+        response = self.client.post(reverse('create-user'), data)
+        self.assertContains(response, 'f_name')
+
+    def test_lookup_user(self):
+        response = self.client.get(reverse('lookup-user', kwargs={'user_id':2}))
+        self.assertContains(response, 'f_name')
+    
+    def test_delete_user(self):
+        response=self.client.delete(reverse('delete-user', kwargs={'user_id':1}))
+        self.assertNotContains(response, 'f_name')
+
+    def test_update_user(self):
+        data = {'f_name':'Phatcheeekan'}
+        response=self.client.post(reverse('update-user', kwargs={'user_id':2}), data)
+        self.assertContains(response, 'Phatcheeekan')
 
     def tearDown(self):
     	pass
