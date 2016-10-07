@@ -40,19 +40,19 @@ def detail_hair(request, hair_id):
 		getUserAndStylist(hair)
 		return JsonResponse(resp)
 
-def getUserAndStylist(hair):
-	reqStylist = urllib.request.Request('http://models-api:8000/api/v1/stylists/' + str(hair["stylist"]) + '/')
+def getUserAndStylist(obj):
+	reqStylist = urllib.request.Request('http://models-api:8000/api/v1/stylists/' + str(obj["stylist"]) + '/')
 	resp_jsonStylist = urllib.request.urlopen(reqStylist).read().decode('utf8')
 	respStylist = json.loads(resp_jsonStylist)
-	hair["stylist"] = respStylist["resp"]
-	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(hair["stylist"]["user"]) + '/')
+	obj["stylist"] = respStylist["resp"]
+	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(obj["stylist"]["user"]) + '/')
 	resp_jsonUser = urllib.request.urlopen(reqUser).read().decode('utf8')
 	respUser = json.loads(resp_jsonUser)
-	hair["stylist"]["user"] = respUser["resp"]
-	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(hair["author"]) + '/')
+	obj["stylist"]["user"] = respUser["resp"]
+	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(obj["author"]) + '/')
 	resp_jsonUser = urllib.request.urlopen(reqUser).read().decode('utf8')
 	respUser = json.loads(resp_jsonUser)
-	hair["author"] = respUser["resp"]
+	obj["author"] = respUser["resp"]
 
 
 def all_stylists(request):

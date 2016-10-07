@@ -20,9 +20,9 @@ from expservice import views
 urlpatterns = [
 	url(r'^api/v1/all_hairs/$', views.all_hairs, name='all-hairs'),
     url(r'^api/v1/popular_hairs/$', views.popular_hairs, name='popular-hairs'),
-    url(r'^api/v1/hairs/(\d+)/$', views.detail_hair, name='detail-hair'),
+    url(r'^api/v1/hairs/(?P<hair_id>\d+)/$', views.detail_hair, name='detail-hair'),
     url(r'^api/v1/all_stylists/$', views.all_stylists, name='all-stylists'),
-    url(r'^api/v1/stylists/(\d+)/$', views.detail_stylist, name='detail-stylist'),
-    url(r'^api/v1/stylists/reviews/(\d+)/$', views.review_stylist, name='review-stylist'),
+    url(r'^api/v1/stylists/(?P<stylist_id>\d+)/$', views.detail_stylist, name='detail-stylist'),
+    url(r'^api/v1/stylists/reviews/(?P<stylist_id>\d+)/$', views.review_stylist, name='review-stylist'),
 
 ]
