@@ -15,15 +15,14 @@ class EntryModelTest(TestCase):
     	response = self.client.post(reverse('create-stylist'), data)
     	self.assertContains(response, 'stylist_phone_number')
 
-    # def test_lookup_stylist(self):
-    #     response = self.client.get(reverse('lookup-stylist', kwargs={'stylist_id':1}))
-    #     self.assertContains(response, 'location')
-
-    # def test_create_review(self):
+    def test_lookup_stylist(self):
+    	response = self.client.get(reverse('lookup-stylist', kwargs={'stylist_id':1}))
+    	self.assertContains(response, 'years_experience')
+    
+   	# def test_create_review(self):
     #     data = {'title': 'At least my grandma likes it.', 'body': 'Lord pliss help.', 'author': 1,'rating': 3,'review_upvotes':1, 'stylist':1}
     #     response = self.client.post(reverse('create-review'), data)
     #     self.assertContains(response, 'body')
 
-
-
-
+    def tearDown(self):
+    	pass
