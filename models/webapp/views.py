@@ -313,7 +313,7 @@ def create_review(request):
 	u = models.User.objects.get(pk=request.POST['author'])
 	if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
 		return _error_response("Stylist does not exist")
-	s = models.Stylist.objects.get(pk=request.Post['stylist'])
+	s = models.Stylist.objects.get(pk=request.POST['stylist'])
 
 	r = models.Review(title=request.POST['title'],
 					body=request.POST['body'],

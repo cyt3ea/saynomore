@@ -10,8 +10,24 @@ class ModelsTests(TestCase):
     def setUp(self):
     	pass    	
 
-    #TESTING 
+    #TESTING REVIEW MODEL BELOW
+    def test_create_review(self):
+    	data = {'title':'Wowserz', 'body':'I am befuddled.', 'author':1, 'rating':3, 'review_upvotes':10, 'stylist':1} 
+    	response = self.client.post(reverse('create-review'), data)
+    	self.assertContains(response, 'title')
 
+    def test_lookup_review(self):
+    	response = self.client.get(reverse('lookup-review', kwargs={'review_id':1}))
+    	self.assertContains(response, 'title')
+
+    def test_delete_review(self):
+    	response=self.client.delete(reverse('delete-review', kwargs={'review_id':1}))
+    	self.assertNotContains(response, 'title')
+
+    def test_update_review(self):
+    	data = {'title':'YAAAAS'}
+    	response=self.client.post(reverse('update-review', kwargs={'review_id':2}), data)
+    	self.assertContains(response, "YAAAAS")
 
     #TESTING STYLIST MODEL BELOW
     def test_create_stylist(self):
@@ -34,6 +50,7 @@ class ModelsTests(TestCase):
     def test_update_stylist(self):
     	data = {'years_experience':15}
     	response=self.client.post(reverse('update-stylist', kwargs={'stylist_id':2}), data)
+    	print("Updated stylist: " + str(response.content))
     	self.assertContains(response, 15)
 
     def test_all_stylists(self):
