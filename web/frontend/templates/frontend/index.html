@@ -1,33 +1,100 @@
-<h1> SAYNOMORE </h1>
-<h3> Hairs </h3>
-<input type="submit" value="Search" style="float:right"/>
-<div style="overflow:hidden; padding-right: .5em">
-	<input type="text" style="width:100%"/>
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center jumbotron" style="background: #483D8B;">
+	<div class="container-fluid">
+		<h3 style="color:white;"> Looking for a new haircut? <b> saynomore </b> </h3>
+		<p><a class="btn btn-primary btn-lg" href="#" role="button" style="background-color:#938CC5; text-align:center; border-color:#483E85;">Learn more</a></p>
+	</div>
 </div>
-{% for key, list in respHair.items %}
-	{% for hairs in list %}
-		<div>
-			<a href="{% url 'hair-detail' hairs.id %}"><h3> {{hairs.name}} </h3></a>
-			Stylist: {{hairs.stylist.user.f_name}} {{hairs.stylist.user.l_name}} <br>
-			Price: {{hairs.price}} <br>
-			Number of Upvotes: {{hairs.hair_upvotes}}
+<div class="page-header" style="background: #eee; margin-top:-40px;">
+	<div class="container-fluid">
+		<h1 style=""> Browse Hairstyles </h1>
+	</div>
+</div>
+
+<div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search for hairstyles..."">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"> Search </button>
+					</span>
+				</div>
+			</div>
 		</div>
-	{% endfor %}
-{% endfor %}
-<br>
-<h3> Stylists </h3>
-<input type="submit" value="Search" style="float:right"/>
-<div style="overflow:hidden; padding-right: .5em">
-	<input type="text" style="width:100%"/>
+	</div>
 </div>
+
+<br>
+
+<div>
+	<div class="container-fluid">
+		{% for key, list in respHair.items %}
+			{% for hairs in list %}
+				<div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      <!-- <img src="..." alt="..."> -->
+				      <div class="caption">
+				        <div>
+							<a href="{% url 'hair-detail' hairs.id %}"><h3> {{hairs.name}} </h3></a>
+							Stylist: {{hairs.stylist.user.f_name}} {{hairs.stylist.user.l_name}} <br>
+							Price: {{hairs.price}} <br>
+							Number of Upvotes: {{hairs.hair_upvotes}}
+						</div>
+				        <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+				      </div>
+				    </div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+</div>
+
+<div class="page-header" style="background: #eee;">
+	<div class="container-fluid">
+		<h1 style=""> Browse Stylists </h1>
+	</div>
+</div>
+
+<div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search for hairstyles..."">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button"> Search </button>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<br>
+
 {% for key, list in respStylists.items %}
 	{% for stylists in list %}
-		<div>
-			<a href="{% url 'stylist-detail' stylists.id %}"><h3> {{stylists.user.f_name}} {{stylists.user.l_name}} </h3></a>
-			Years Experience: {{stylists.years_experience}} <br>
-			Location: {{stylists.location}} <br>
-		</div>
+		<div class="col-sm-6 col-md-4">
+				    <div class="thumbnail">
+				      <!-- <img src="..." alt="..."> -->
+				      <div class="caption">
+				        <div>
+							<a href="{% url 'stylist-detail' stylists.id %}"><h3> {{stylists.user.f_name}} {{stylists.user.l_name}} </h3></a>
+							Years Experience: {{stylists.years_experience}} <br>
+							Location: {{stylists.location}} <br>
+						</div>
+				        <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+				      </div>
+				    </div>
+				</div>
 	{% endfor %}
 {% endfor %}
+
+{% endblock %}
 
 <!-- {"all_hairs": [{"id": 1, "stylist": "Robby McJimbers", "hair_phone_number": "7771110000", "price": "18.77", "location": "Kentucky", "hair_upvotes": 2}, {"id": 2, "stylist": "Clark McHarrington", "hair_phone_number": "1119990000", "price": "7.99", "location": "Virginia", "hair_upvotes": 1}]} -->
