@@ -387,6 +387,21 @@ def update_review(request, review_id):
 	r.save()
 	return _success_response(request, model_to_dict(r))
 
+def stylist_reviews(request, stylist_id):
+	if request.method != 'GET':
+		return _error_response(request, "Must make GET request")
+	try:
+		reviews = _stylist_reviews(stylist_id)
+	except db.Error:
+		return _error_response(request, "db error")
+
+	return _success_response(request, {'reviews': reviews})
+
+def _stylist_reviews(stylist_id):
+	reviews = models.Review.objects.filter(stylist=stylist_id)
+	reviews = list(map(model_to_dict, reviews))
+	return reviews
+
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
 
