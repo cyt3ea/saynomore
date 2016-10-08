@@ -51,12 +51,12 @@ class ModelsTests(TestCase):
     def test_update_stylist(self):
     	data = {'years_experience':15}
     	response=self.client.post(reverse('update-stylist', kwargs={'stylist_id':2}), data)
-    	print("Updated stylist: " + str(response.content))
+    	# print("Updated stylist: " + str(response.content))
     	self.assertContains(response, 15)
 
     def test_all_stylists(self):
     	response = self.client.get(reverse('all-stylists'))
-    	print("All stylists in fixture: " + str(response.content))
+    	# print("All stylists in fixture: " + str(response.content))
     	self.assertContains(response, 'stylist_phone_number')
 
     #TESTING HAIR MODEL BELOW

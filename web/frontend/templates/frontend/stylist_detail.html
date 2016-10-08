@@ -1,28 +1,41 @@
-<h1> {{stylist.user.f_name}} {{stylist.user.l_name}} </h1>
-{% for key, value in stylist.items %}
-	<div>
-		{%if key != 'id' and key != 'user' %}
-			{{key}} : {{value}}
-		{% endif %}
-	</div>
-{% endfor %}
-<br>
-<form action="{% url 'index' %}">
-    <input type="submit" value="Back" />
-</form>
+{% extends "base.html" %}
 
-<h1> Reviews </h1>
+{% block content %}
+
+<div class="jumbotron" style="color:white; background: #483D8B;">
+	<div class="container-fluid">
+		<h1> {{stylist.user.f_name}} {{stylist.user.l_name}} </h1>
+		<p> 
+			<b>Experience: </b> {{stylist.years_experience}} years <br> 
+			<b>Location: </b> {{stylist.location}} <br>
+			<b>Client Gender: </b> {{stylist.client_gender}} <br>
+			<b>Phone Number: </b> {{stylist.stylist_phone_number}}
+		</p>
+		<p><a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button" style="background-color:#938CC5; text-align:center; border-color:#483E85;">Back to Home</a></p>
+	</div>
+</div>
+
+<div class="page-header" style="background: #eee; margin-top:-40px;">
+	<div class="container-fluid">
+		<h1 style=""> Reviews </h1>
+	</div>
+</div>
 
 {% for key, list in reviews.items %}
 	{% for review in list %}
-		<div>
-			<h3>{{review.title}}</h3>
-			<p> {{review.body}} </p>
-			Written by {{review.author.f_name}} {{review.author.l_name}} | Rating: {{review.rating}} | Review Upvotes: {{review.review_upvotes}}
+	<div class="jumbotron" style="background-color:white; padding-top:0px; padding-bottom:0px;">
+		<div class="container-fluid">
+			<div>
+				<h2>{{review.title}}</h2>
+				<p> {{review.body}} </p>
+				Written by {{review.author.f_name}} {{review.author.l_name}} | Rating: {{review.rating}} | Review Upvotes: {{review.review_upvotes}}
+			</div>
+			<br><hr>
 		</div>
-		<br><hr>
+	</div>
 	{% endfor %}
 {% endfor %}
 
+{% endblock %}
 
 <!-- {"hair_phone_number": "7771110000", "hair_upvotes": 2, "location": "Kentucky", "stylist": "Robby McJimbers", "id": 1, "price": "18.77"} -->

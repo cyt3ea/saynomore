@@ -1,20 +1,22 @@
-<h1> Hair {{resp.id}} </h1>
-{% for key, value in resp.items %}
-	<div>
-		{%if key != 'id' %}
-			{% if key == 'author' %}
-				author: {{value.f_name}} {{value.l_name}}
-			{% elif key == 'stylist' %}
-				stylist: {{value.user.f_name}} {{value.user.l_name}}
-			{% else %}
-				{{key}} : {{value}}
-			{% endif %}
-		{% endif %}
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="jumbotron" style="color:white; background: #483D8B;">
+	<div class="container-fluid">
+		<h1> {{resp.name}} </h1>
+		<p> 
+			<b>Stylist: </b> {{resp.stylist.user.f_name}} {{resp.stylist.user.l_name}} <br> 
+			<b>Phone Number: </b> {{resp.hair_phone_number}} <br>
+			<b>Price: </b> {{resp.price}} <br>
+			<b>Location: </b> {{resp.location}} <br>
+			<b>Upvotes: </b> {{resp.hair_upvotes}}
+		</p>
+		<p><a class="btn btn-primary btn-lg" href="{% url 'index' %}" role="button" style="background-color:#938CC5; text-align:center; border-color:#483E85; display:inline-block;">Back to Home</a></p>
+		<div style="float:right;"> Posted by {{resp.author.f_name}} {{resp.author.l_name}} </div>
 	</div>
-{% endfor %}
-<br>
-<form action="{% url 'index' %}">
-    <input type="submit" value="Back" />
-</form>
+</div>
+
+{% endblock %}
 
 <!-- {"hair_phone_number": "7771110000", "hair_upvotes": 2, "location": "Kentucky", "stylist": "Robby McJimbers", "id": 1, "price": "18.77"} -->
