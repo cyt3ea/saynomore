@@ -164,7 +164,7 @@ def update_user(request, user_id):
 		u.email = request.POST['email']
 		changed = True
 	if 'password' in request.POST:
-		u.password = request.POST['password']
+		u.password = hashers.make_password(request.POST['password'])
 		changed = True
 
 	if not changed:
