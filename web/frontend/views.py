@@ -101,6 +101,13 @@ def create_user(request):
 
 #Check login through all the layers
 def login(request):
+	#Check to see if cookie is already stored. If yes,
+	if request.COOKIES.get('auth') != None:
+		# jsonLogin = {'userAuth': request.COOKIES.get('auth')}
+		# r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
+		# if r.json()['ok'] == True:
+		return index(request)
+
 	if request.method == 'GET':
 		form = LoginForm()
 	elif request.method == 'POST':
@@ -111,7 +118,7 @@ def login(request):
 			jsonLogin = {'username':input_username, 'password':input_password}
 			r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
 			# return HttpResponse(r.json().items())
-			# return HttpResponse(r)
+			# return HttpResponse(request.COOKIES.get('auth'))
 
 			if r.json()['ok'] == True:
 				# return HttpResponse(r)
