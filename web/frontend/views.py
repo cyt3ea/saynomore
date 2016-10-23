@@ -72,27 +72,30 @@ def create_hair(request):
 		return _error_response(request, 'Must be POST or GET request')
 	return render(request, 'frontend/create_hair.html', {'form': form})
 
-# def create_user(request):
-# 	if request.method == 'GET':
-# 		form = UserForm()
-# 	elif request.method == 'POST':
-# 		#create a form instance and populate it with data from the request:
-# 		form = UserForm(request.POST)
-# 		# check whether it's valid:
-# 		if form.is_valid():
-# 			firstname = form.cleaned_data['firstname']
-# 			lastname = form.cleaned_data['lastname']
-# 			username = form.cleaned_data['username']
-# 			password = form.cleaned_data['password']
-
-# 			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
-# 			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
-
-# 			return HttpResponse("Account has been created!")
+def create_user(request):
+	if request.method == 'GET':
+		form = UserForm()
+	elif request.method == 'POST':
+		#create a form instance and populate it with data from the request:
+		form = UserForm(request.POST)
+		# check whether it's valid:
+		if form.is_valid():
+			firstname = form.cleaned_data['firstname']
+			lastname = form.cleaned_data['lastname']
+			username = form.cleaned_data['username']
+			password = form.cleaned_data['password']
+			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
+			# return HttpResponse(userdata)
+			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
+			if r.ok:
+				return index(request)
+			form = UserForm()
+			messages.error(request, 'Error creating User, please try again.')
+			return render(request, 'frontend/create_user.html', {'form': form})
 			
-# 	else:
-# 		return _error_response(request, 'Must be POST or GET request')
-# 	return render(request, 'frontend/create_user.html', {'form': form})
+	else:
+		return _error_response(request, 'Must be POST or GET request')
+	return render(request, 'frontend/create_user.html', {'form': form})
 
 #Check login through all the layers
 # def login(request):

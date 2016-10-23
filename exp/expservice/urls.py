@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^api/v1/stylists/(?P<stylist_id>\d+)/$', views.detail_stylist, name='detail-stylist'),
     url(r'^api/v1/stylists/reviews/(?P<stylist_id>\d+)/$', views.review_stylist, name='review-stylist'),
     url(r'^api/v1/create_hair/$', views.createHair, name='create-hair'),    
-#    url(r'^api/v1/login_exp/$', views.login_exp, name='login-exp'),
+    url(r'^api/v1/create_user/$', views.create_user, name='create-user'),    
+    # url(r'^api/v1/login_exp/$', views.login_exp, name='login-exp'),
 ]
