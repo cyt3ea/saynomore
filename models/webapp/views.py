@@ -411,7 +411,7 @@ def login_mod(request):
 		return _error_response(request, "User not found :-(")
 	is_valid_user = hashers.check_password(request.POST['password'], user.password)
 
-	if is_valid_user:
+	if is_valid_user == True:
 		return _success_response(request)
 	else:
 		return _error_response(request, "Invalid username/password combination")

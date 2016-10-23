@@ -65,7 +65,7 @@ def create_hair(request):
 			jsonHair = {'location':location, 'price':price, 'hair_phone_number': phone_number, 'stylist':stylist, 'hair_upvotes': upvotes, 'author': author, 'name':name}
 			# return HttpResponse(jsonStylist)
 			r = requests.post('http://exp-api:8000/api/v1/create_hair/', data=jsonHair)
-			if r.ok:
+			if r.json()['ok'] == True:
 				return index(request)
 			form = HairForm()
 			messages.error(request, 'Error creating hair, please try again.')
@@ -89,7 +89,7 @@ def create_user(request):
 			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
 			# return HttpResponse(userdata)
 			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
-			if r.ok:
+			if r.json()['ok'] == True:
 				return index(request)
 			form = UserForm()
 			messages.error(request, 'Error creating User, please try again.')
@@ -110,8 +110,10 @@ def login(request):
 			input_password = form.cleaned_data['password']
 			jsonLogin = {'username':input_username, 'password':input_password}
 			r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
-			# return HttpResponse(r.ok)
-			if r.ok == True:
+			# return HttpResponse(r.json().items())
+			# return HttpResponse(r.json()['ok'])
+			
+			if r.json()['ok'] == True:
 				# return HttpResponse(r)
 				return index(request)
 			form = LoginForm
