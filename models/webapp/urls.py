@@ -44,4 +44,7 @@ urlpatterns = [
     url(r'^api/v1/stylists/reviews/(\d+)/$', views.stylist_reviews, name='stylist-reviews'),
 
     url(r'^api/v1/login_mod/$', views.login_mod, name='login-mod'),
+    url(r'^api/v1/authenticator/delete/(?P<auth_id>\d+)/$', views.delete_auth, name='delete-auth'),
+    url(r'^api/v1/authenticator/(?P<auth_id>\d+)/$', views.lookup_auth, name='lookup-auth'),
+
 ]

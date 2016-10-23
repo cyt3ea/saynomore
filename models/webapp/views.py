@@ -16,6 +16,26 @@ from django.forms.models import model_to_dict
 
 from webapp import models
 
+def lookup_auth(request, auth_id):
+	if request.method != 'GET':
+		return _error_response(request, "must make HTTP GET request")
+	# h = get_object_or_404(models.Hair, pk=hair_id)
+	try:
+		a = models.Authenticator.objects.get(pk=auth_id)
+	except models.Authenticator.DoesNotExist:
+		return _error_response(request, "Authenticator not found")
+	return _success_response(request, model_to_dict(a))
+
+def delete_auth(request, auth_id):
+	if request.method != 'DELETE':
+		return _error_response(request, "must make HTTP DELETE request")
+	try:
+		a = models.Authenticator.objects.get(pk=auth_id)
+	except models.Authenticator.DoesNotExist:
+		return _error_response(request, "Authenticator not found")
+	a.delete()
+	return _success_response(request)
+
 def create_stylist(request):
 	if request.method != 'POST':
 		return _error_response(request, "must make HTTP POST request")
