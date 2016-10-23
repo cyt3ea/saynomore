@@ -19,7 +19,7 @@ class Hair(models.Model):
 	location = models.CharField(max_length=100)
 	price = models.DecimalField(max_digits=9, decimal_places=2)
 	hair_phone_number = models.CharField(max_length=15)
-	stylist = models.ForeignKey(Stylist)
+	stylist = models.CharField(max_length=50)
 	hair_upvotes = models.IntegerField(default=0)
 	author = models.ForeignKey(User)
 	name = models.CharField(max_length=100)

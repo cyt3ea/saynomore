@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^api/v1/all_stylists/$', views.all_stylists, name='all-stylists'),
     url(r'^api/v1/stylists/(?P<stylist_id>\d+)/$', views.detail_stylist, name='detail-stylist'),
     url(r'^api/v1/stylists/reviews/(?P<stylist_id>\d+)/$', views.review_stylist, name='review-stylist'),
-
+    url(r'^api/v1/create_hair/$', views.createHair, name='create-hair'),
 ]

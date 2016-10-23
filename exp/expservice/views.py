@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
+import requests
 import urllib.request
 import urllib.parse
 import json
@@ -15,7 +16,7 @@ def all_hairs(request):
 		resp = json.loads(resp_json)
 		all_hairs = resp["resp"]["all_hairs"]
 		for hair in all_hairs:
-			getUserAndStylist(hair)
+			getUser(hair)
 		return JsonResponse(resp)
 
 def popular_hairs(request):
@@ -38,18 +39,10 @@ def detail_hair(request, hair_id):
 		resp_json = urllib.request.urlopen(req).read().decode('utf8')
 		resp = json.loads(resp_json)
 		hair = resp["resp"]
-		getUserAndStylist(hair)
+		getUser(hair)
 		return JsonResponse(resp)
 
-def getUserAndStylist(obj):
-	reqStylist = urllib.request.Request('http://models-api:8000/api/v1/stylists/' + str(obj["stylist"]) + '/')
-	resp_jsonStylist = urllib.request.urlopen(reqStylist).read().decode('utf8')
-	respStylist = json.loads(resp_jsonStylist)
-	obj["stylist"] = respStylist["resp"]
-	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(obj["stylist"]["user"]) + '/')
-	resp_jsonUser = urllib.request.urlopen(reqUser).read().decode('utf8')
-	respUser = json.loads(resp_jsonUser)
-	obj["stylist"]["user"] = respUser["resp"]
+def getUser(obj):
 	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(obj["author"]) + '/')
 	resp_jsonUser = urllib.request.urlopen(reqUser).read().decode('utf8')
 	respUser = json.loads(resp_jsonUser)
@@ -96,6 +89,14 @@ def getStylistFK(stylist):
 	resp_jsonStylist = urllib.request.urlopen(reqStylist).read().decode('utf8')
 	respStylist = json.loads(resp_jsonStylist)
 	stylist["user"] = respStylist["resp"]
+
+def createHair(request):
+	if request.method == 'POST':
+		jsonHair = {'location':request.POST['location'], 'price':request.POST['price'], 'hair_phone_number': request.POST['hair_phone_number'], 'stylist':request.POST['stylist'], 'hair_upvotes': request.POST['hair_upvotes'], 'author': request.POST['author'], 'name':request.POST['name']}
+		r = requests.post('http://models-api:8000/api/v1/hairs/create/', data=jsonHair)
+		return HttpResponse(r)
+	else:
+		return _error_response(request, 'Must be POST request')
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})

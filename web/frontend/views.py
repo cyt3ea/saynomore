@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from .forms import NameForm, HairForm, LoginForm
+from django.contrib import messages
 
+import requests
 import urllib.request
 import urllib.parse
 import json
@@ -48,7 +50,23 @@ def create_hair(request):
 	elif request.method == 'POST':
 		form = HairForm(request.POST)
 		if form.is_valid():
-			return HttpResponse("Valid Hair yay!")
+			name = form.cleaned_data['name']
+			stylist = form.cleaned_data['stylist']
+			location = form.cleaned_data['location']
+			price = form.cleaned_data['price']
+			phone_number = form.cleaned_data['phone_number']
+			# author = request.user.id
+			author = 1
+			upvotes = 0
+			# return HttpResponse(upvotes)
+			jsonHair = {'location':location, 'price':price, 'hair_phone_number': phone_number, 'stylist':stylist, 'hair_upvotes': upvotes, 'author': author, 'name':name}
+			# return HttpResponse(jsonStylist)
+			r = requests.post('http://exp-api:8000/api/v1/create_hair/', data=jsonHair)
+			if not r.ok:
+				return index(request)
+			form = HairForm()
+			messages.error(request, 'Error creating hair, please try again.')
+			return render(request, 'frontend/create_hair.html', {'form': form})
 	else:
 		return _error_response(request, 'Must be GET request')
 	return render(request, 'frontend/create_hair.html', {'form': form})

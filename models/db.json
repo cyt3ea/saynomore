@@ -6,7 +6,7 @@
 			"location" : "Kentucky",
 			"price" : 18.77,
 			"hair_phone_number" : "7771110000",
-			"stylist" : 1,
+			"stylist" : "Robby McJimbers",
 			"hair_upvotes" : 2,
 			"author" : 1,
 			"name": "McFlurry"
@@ -22,7 +22,7 @@
 			"location" : "Virginia",
 			"price" : 7.99,
 			"hair_phone_number" : "1119990000",
-			"stylist" : 2,
+			"stylist" : "Clark McHarrington",
 			"hair_upvotes" : 1,
 			"author": 3,
 			"name": "The Womanizer"

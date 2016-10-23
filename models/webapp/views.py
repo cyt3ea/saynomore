@@ -184,9 +184,9 @@ def create_hair(request):
 		return _error_response(request, "must make HTTP POST request")
 	if 'name' not in request.POST or 'author' not in request.POST or 'location' not in request.POST or 'price' not in request.POST or 'hair_phone_number' not in request.POST or 'stylist' not in request.POST:
 		return _error_response(request, "missing required fields")
-	if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
-		return _error_response("Stylist does not exist")
-	s = models.Stylist.objects.get(pk=request.POST['stylist'])
+	# if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
+	# 	return _error_response("Stylist does not exist")
+	# s = models.Stylist.objects.get(pk=request.POST['stylist'])
 
 	if not models.User.objects.filter(pk=request.POST['author']).exists():
 		return _error_response("User does not exist")
@@ -195,7 +195,7 @@ def create_hair(request):
 	h = models.Hair(location=request.POST['location'], 
 					price=request.POST['price'],
 					hair_phone_number=request.POST['hair_phone_number'],
-					stylist=s,
+					stylist=request.POST['stylist'],
 					author=u,
 					name=request.POST['name'],
 					hair_upvotes=0)
@@ -250,10 +250,10 @@ def update_hair(request, hair_id):
 		h.hair_phone_number = request.POST['hair_phone_number']
 		changed = True
 	if 'stylist' in request.POST:
-		if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
-			return _error_response("Stylist does not exist")
-		s = models.Stylist.objects.get(pk=request.POST['stylist'])
-		h.author = s
+		# if not models.Stylist.objects.filter(pk=request.POST['stylist']).exists():
+		# 	return _error_response("Stylist does not exist")
+		# s = models.Stylist.objects.get(pk=request.POST['stylist'])
+		h.stylist = request.POST['stylist']
 		changed = True
 	if 'author' in request.POST:
 		if not models.User.objects.filter(pk=request.POST['author']).exists():
