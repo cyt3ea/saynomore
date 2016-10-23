@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from .forms import NameForm, HairForm
 
 import urllib.request
@@ -51,8 +51,23 @@ def create_hair(request):
 			return HttpResponse("Valid Hair yay!")
 	else:
 		return _error_response(request, 'Must be GET request')
-	return render(request, 'frontend/new_hair.html', {'form': form})
+	return render(request, 'frontend/create_hair.html', {'form': form})
 
+def get_name(request):
+	# if this is a Post request we need to process the form data
+	if request.method == 'POST':
+		#create a form instance and populate it with data from the request:
+		form = NameForm(request.POST)
+		# check whether it's valid:
+		if form.is_valid():
+			# process the data in form.cleaned_data as required 
+			# ...
+			# redirect to new URL:
+			return HttpResponseRedirect('/thanks/')
+		# if a GET (or any other method) we'll create a blank form
+	else:
+		form = NameForm()
+	return render(request, 'name.html', {'form': form})
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})

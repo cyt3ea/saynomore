@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
-from .forms import NameForm
+from django.http import JsonResponse
 
 import urllib.request
 import urllib.parse
@@ -97,22 +96,6 @@ def getStylistFK(stylist):
 	resp_jsonStylist = urllib.request.urlopen(reqStylist).read().decode('utf8')
 	respStylist = json.loads(resp_jsonStylist)
 	stylist["user"] = respStylist["resp"]
-
-def get_name(request):
-	# if this is a Post request we need to process the form data
-	if request.method == 'POST':
-		#create a form instance and populate it with data from the request:
-		form = NameForm(request.POST)
-		# check whether it's valid:
-		if form.is_valid():
-			# process the data in form.cleaned_data as required 
-			# ...
-			# redirect to new URL:
-			return HttpResponseRedirect('/thanks/')
-		# if a GET (or any other method) we'll create a blank form
-	else:
-		form = NameForm()
-	return render(request, 'name.html', {'form': form})
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
