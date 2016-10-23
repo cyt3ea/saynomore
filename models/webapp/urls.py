@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^api/v1/users/(?P<user_id>\d+)/$', views.lookup_user, name='lookup-user'),
     url(r'^api/v1/users/delete/(?P<user_id>\d+)/$', views.delete_user, name='delete-user'),
     url(r'^api/v1/users/update/(?P<user_id>\d+)/$', views.update_user, name='update-user'),
+    url(r'^api/v1/users/all_users/$', views.all_users, name='all-users' ),
 
     url(r'^api/v1/hairs/create/$', views.create_hair, name='create-hair'),
     url(r'^api/v1/hairs/(?P<hair_id>\d+)/$', views.lookup_hair, name='lookup-hair'),

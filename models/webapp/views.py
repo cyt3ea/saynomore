@@ -173,6 +173,20 @@ def update_user(request, user_id):
 	u.save()
 	return _success_response(request, model_to_dict(u))
 
+def all_users(request):
+	if request.method != 'GET':
+		return _error_response(request, "Must make GET request")
+	try:
+		users = _all_users()
+	except db.Error:
+		return _error_response(request, "db error")
+	return _success_response(request, {'all_users': users})
+
+def _all_users():
+	users = models.User.objects.all()
+	users = list(map(model_to_dict, users))
+	return users
+
 # Tested using django client tool -- go into python manage.py shell
 # from django.test import Client
 # c = Client()

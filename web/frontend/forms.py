@@ -4,7 +4,7 @@ class UserForm(forms.Form):
 	firstname = forms.CharField(label='First Name', max_length=16)
 	lastname = forms.CharField(label='Last Name', max_length=16)
 	username = forms.CharField(label='Username', max_length=24)
-	password = forms.CharField(label='Password', max_length=96)
+	password = forms.CharField(label='Password', max_length=96, widget=forms.PasswordInput)
 
 class HairForm(forms.Form):
 	name = forms.CharField(label='Hair Name', max_length=100)
