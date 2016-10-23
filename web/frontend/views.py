@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .forms import NameForm, HairForm, LoginForm
+from .forms import UserForm, HairForm, LoginForm
 from django.contrib import messages
 
 import requests
@@ -72,21 +72,27 @@ def create_hair(request):
 		return _error_response(request, 'Must be GET request')
 	return render(request, 'frontend/create_hair.html', {'form': form})
 
-def get_name(request):
-	# if this is a Post request we need to process the form data
-	if request.method == 'POST':
+def create_user(request):
+	if request.method == 'GET':
+		form = UserForm()
+	elif request.method == 'POST':
 		#create a form instance and populate it with data from the request:
-		form = NameForm(request.POST)
+		form = UserForm(request.POST)
 		# check whether it's valid:
 		if form.is_valid():
-			# process the data in form.cleaned_data as required 
-			# ...
-			# redirect to new URL:
-			return HttpResponseRedirect('/thanks/')
-		# if a GET (or any other method) we'll create a blank form
+			firstname = form.cleaned_data['firstname']
+			lastname = form.cleaned_data['lastname']
+			username = form.cleaned_data['username']
+			password = form.cleaned_data['password']
+
+			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
+			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
+
+			return HttpResponse("Account has been created!")
+			
 	else:
-		form = NameForm()
-	return render(request, 'name.html', {'form': form})
+		return _error_response(request, 'Must be POST or GET request')
+	return render(request, 'frontend/create_user.html', {'form': form})
 
 #Check login through all the layers
 def login(request):

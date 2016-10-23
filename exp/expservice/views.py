@@ -108,6 +108,13 @@ def createHair(request):
 # 		resp = json.loads(resp_json)
 # 		login = resp["resp"]["login"]
 # 		return JsonResponse(resp)
+def create_user(request):
+	if request.method != 'POST':
+		return _error_response(request, 'Must be POST request')
+	else:
+		userdata = {'f_name':request.POST['firstname'], 'l_name': request.POST['lastname'], 'username':request.POST['username'], 'password':request['password']}
+    	r = requests.post('http://models-api:8000/api/v1/users/create/', data=userdata)
+    	return HttpResponse(r)
 
 
 def _error_response(request, error_msg):
