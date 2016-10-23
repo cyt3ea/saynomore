@@ -95,29 +95,25 @@ def create_hair(request):
 # 	return render(request, 'frontend/create_user.html', {'form': form})
 
 #Check login through all the layers
-# def login(request):
-# 	f = LoginForm(request.POST)
-# 	if request.method == 'GET':
-# 		next = request.GET.get('index') or reverse('LoginForm')
-# 		return render(request, 'frontend/login.html', {'form': f})
+def login(request):
+	if request.method == 'GET':
+		form = LoginForm()
+	elif request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			input_username = form.cleaned_data['username']
+			input_password = form.cleaned_data['password']
+			jsonLogin = {'username':input_username, 'password':input_password}
+			r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
+			if r.ok:
+				return index(request)
+			form = LoginForm
+			messages.error(request, 'Invalid username/password combination.')
+			return render(request, 'frontend/login.html', {'form': form})
+	else:
+		return _error_response(request, 'Must be POST or GET request')
+	return render(request, 'frontend/login.html', {'form': form})
 	
-# 	if not f.is_valid():
-# 		return render(request, 'frontend/login.html', {'form': f})
-# 	username = f.cleaned_data['username']
-# 	password = f.cleaned_data['password']
-# 	next = f.cleaned_data.get('index') or reverse('LoginForm')
-	
-# 	#CALL EXP LAYER BELOW
-# 	resp = urllib.request.Request('http://exp-api:8000/api/v1/login-exp/')
-# 	resp_jsonLogin = urllib.request.urlopen(resp).read().decode('utf8')
-# 	respLogin = json.loads(resp_jsonLogin)['resp']
-# 	if not resp or not resp['ok']:
-# 		return render(request, 'frontend/login.html', {'form': f})
-# 	authenticator = resp['resp']['authenticator']
-# 	response = HttpResponseRedirect(next)
-# 	response.set_cookie("auth", authenticator)
-# 	return response
-
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
 

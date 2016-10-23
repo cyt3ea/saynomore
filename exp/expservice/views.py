@@ -98,16 +98,16 @@ def createHair(request):
 	else:
 		return _error_response(request, 'Must be POST request')
 
-# #Calls the Login API from the models layer
-# def login_exp(request, username, password):
-# 	if request.method != 'GET':
-# 		return _error_response(request, 'Must be GET request')
-# 	else:
-# 		req = urllib.request.Request('http://models-api:8000/api/v1/login/')
-# 		resp_json = urllib.request.urlopen(req).read().decode('utf8')
-# 		resp = json.loads(resp_json)
-# 		login = resp["resp"]["login"]
-# 		return JsonResponse(resp)
+#Calls the Login API from the models layer
+def login_exp(request, username, password):
+	if request.method != 'POST':
+		return _error_response(request, 'Must be POST request')
+	else:
+		req = urllib.request.Request('http://models-api:8000/api/v1/login_mod/')
+		resp_json = urllib.request.urlopen(req).read().decode('utf8')
+		resp = json.loads(resp_json)
+		login = resp["resp"]["login"]
+		return JsonResponse(resp)
 
 # def create_user(request):
 # 	if request.method != 'POST':
