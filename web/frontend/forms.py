@@ -1,8 +1,10 @@
 from django import forms
 
-class NameForm(forms.Form):
-	your_name = forms.CharField(label='First Name', max_length=100)
-	#your_last_name = forms.CharField(label='Last Name'), max_length=100)
+class UserForm(forms.Form):
+	firstname = forms.CharField(label='First Name', max_length=16)
+	lastname = forms.CharField(label='Last Name', max_length=16)
+	username = forms.CharField(label='Username', max_length=24)
+	password = forms.CharField(label='Password', max_length=96)
 
 class HairForm(forms.Form):
 	name = forms.CharField(label='Hair Name', max_length=100)
