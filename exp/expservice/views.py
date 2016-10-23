@@ -81,7 +81,7 @@ def review_stylist(request, stylist_id):
 		resp = json.loads(resp_json)
 		stylist_reviews = resp["resp"]["reviews"]
 		for review in stylist_reviews:
-			getUserAndStylist(review)
+			getUser(review)
 		return JsonResponse(resp)
 
 def getStylistFK(stylist):
