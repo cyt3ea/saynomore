@@ -31,3 +31,8 @@ class Review(models.Model):
 	review_upvotes = models.IntegerField(default=0)
 	author = models.ForeignKey(User)
 	stylist = models.ForeignKey(Stylist)
+
+class Authenticator(models.Model):
+	user_id = models.ForeignKey(User)
+	authenticator_id = models.CharField(max_length=96)
+	date_created = models.DateTimeField()
