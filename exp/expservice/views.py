@@ -97,6 +97,18 @@ def getStylistFK(stylist):
 	respStylist = json.loads(resp_jsonStylist)
 	stylist["user"] = respStylist["resp"]
 
+# #Calls the Login API from the models layer
+# def login_exp(request, username, password):
+# 	if request.method != 'GET':
+# 		return _error_response(request, 'Must be GET request')
+# 	else:
+# 		req = urllib.request.Request('http://models-api:8000/api/v1/login/')
+# 		resp_json = urllib.request.urlopen(req).read().decode('utf8')
+# 		resp = json.loads(resp_json)
+# 		login = resp["resp"]["login"]
+# 		return JsonResponse(resp)
+
+
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
 

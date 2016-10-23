@@ -41,4 +41,6 @@ urlpatterns = [
     url(r'^api/v1/stylists/update/(?P<stylist_id>\d+)/$', views.update_stylist, name='update-stylist'),
     url(r'^api/v1/stylists/all_stylists/$', views.all_stylists, name='all-stylists'),
     url(r'^api/v1/stylists/reviews/(\d+)/$', views.stylist_reviews, name='stylist-reviews'),
+
+#    url(r'^api/v1/login_mod/$', views.login_mod, name='login-mod'),
 ]
