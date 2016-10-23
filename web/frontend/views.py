@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .forms import NameForm, HairForm
+from .forms import NameForm, HairForm, LoginForm
 
 import urllib.request
 import urllib.parse
@@ -68,6 +68,17 @@ def get_name(request):
 	else:
 		form = NameForm()
 	return render(request, 'name.html', {'form': form})
+
+def login(request):
+	if request.method == 'GET':
+		form = LoginForm()
+	elif request.method == 'POST':
+		form = LoginForm(request.POST)
+		if form.is_valid():
+			return HttpResponse("Valid Login yay!")
+	else:
+		return _error_response(request, 'Must be GET request')
+	return render(request, 'frontend/login.html', {'form': form})
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})

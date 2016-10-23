@@ -9,3 +9,7 @@ class HairForm(forms.Form):
 	price = forms.DecimalField(label='Price')
 	stylist = forms.CharField(label='Stylist', max_length=15)
 	name = forms.CharField(label='Hair Name', max_length=100)
+
+class LoginForm(forms.Form):
+	username = forms.CharField(label='Username', max_length=100)
+	password = forms.CharField(label='Password', max_length=100)

@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^stylist/(?P<stylist_id>\d+)/$', views.stylist_detail, name="stylist-detail"),
     url(r'^create_hair/$', views.create_hair, name="create-hair"),
     url(r'^form/', views.get_name, name="testForm"),
+    url(r'^login/', views.login, name='LoginForm'),
 ]
