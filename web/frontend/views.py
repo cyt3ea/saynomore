@@ -4,6 +4,7 @@ from .forms import NameForm, HairForm, LoginForm
 from django.contrib import messages
 
 import requests
+from django.core.urlresolvers import reverse
 import urllib.request
 import urllib.parse
 import json
@@ -87,16 +88,29 @@ def get_name(request):
 		form = NameForm()
 	return render(request, 'name.html', {'form': form})
 
+#Check login through all the layers
 def login(request):
+	f = LoginForm(request.POST)
 	if request.method == 'GET':
-		form = LoginForm()
-	elif request.method == 'POST':
-		form = LoginForm(request.POST)
-		if form.is_valid():
-			return HttpResponse("Valid Login yay!")
-	else:
-		return _error_response(request, 'Must be GET request')
-	return render(request, 'frontend/login.html', {'form': form})
+		next = request.GET.get('index') or reverse('LoginForm')
+		return render(request, 'frontend/login.html', {'form': f})
+	
+	if not f.is_valid():
+		return render(request, 'frontend/login.html', {'form': f})
+	username = f.cleaned_data['username']
+	password = f.cleaned_data['password']
+	next = f.cleaned_data.get('index') or reverse('LoginForm')
+	
+	#CALL EXP LAYER BELOW
+	resp = urllib.request.Request('http://exp-api:8000/api/v1/login-exp/')
+	resp_jsonLogin = urllib.request.urlopen(resp).read().decode('utf8')
+	respLogin = json.loads(resp_jsonLogin)['resp']
+	if not resp or not resp['ok']:
+		return render(request, 'frontend/login.html', {'form': f})
+	authenticator = resp['resp']['authenticator']
+	response = HttpResponseRedirect(next)
+	response.set_cookie("auth", authenticator)
+	return response
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})

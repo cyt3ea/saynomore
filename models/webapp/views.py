@@ -402,6 +402,16 @@ def _stylist_reviews(stylist_id):
 	reviews = list(map(model_to_dict, reviews))
 	return reviews
 
+# def login_mod(request, input_username, input_password):
+# 	if request.method != 'GET':
+# 		return _error_response(request, "Must make GET request")
+	
+# 	is_valid_user = models.User.objects.filter(username=input_username, password=input_password).exists()
+# 	if is_valid_user:
+# 		#SEND BACK AUTHENTICATOR HERE
+# 	else:
+# 		return _error_response(request, "Invalid username/password combination")
+
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
 
