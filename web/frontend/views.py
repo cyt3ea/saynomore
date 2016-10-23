@@ -63,7 +63,7 @@ def create_hair(request):
 			jsonHair = {'location':location, 'price':price, 'hair_phone_number': phone_number, 'stylist':stylist, 'hair_upvotes': upvotes, 'author': author, 'name':name}
 			# return HttpResponse(jsonStylist)
 			r = requests.post('http://exp-api:8000/api/v1/create_hair/', data=jsonHair)
-			if not r.ok:
+			if r.ok:
 				return index(request)
 			form = HairForm()
 			messages.error(request, 'Error creating hair, please try again.')

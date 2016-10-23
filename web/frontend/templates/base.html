@@ -18,14 +18,20 @@
 			</div>
 		</div>
 	</nav>
-	{% if messages %}
-	<ul class="messages">
-		{% for message in messages %}
-			<li {% if message.tags %} class="{{message.tags}}" {%endif%}> {{message}} </li>
-		{% endfor %}
-	</ul>
-	{% endif %}
 	<div id="content" style="padding-top:50px;">
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == "error" %}
+					<p class="alert alert-danger"> {{message}} </p>
+				{% elif message.tags == "success" %}
+					<p class="alert alert-success"> {{message}} </p>
+				{% elif message.tags == "info" %}
+					<p class="alert alert-info"> {{message}} </p>
+				{% elif message.tags == "warning" %}
+					<p class="alert alert-warning"> {{message}} </p>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
 		{% block content %}
 		{% endblock %}
 	</div>
