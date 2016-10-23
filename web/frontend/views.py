@@ -89,10 +89,11 @@ def create_user(request):
 			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
 			# return HttpResponse(userdata)
 			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
+			# return HttpResponse(r)
 			if r.json()['ok'] == True:
 				return index(request)
 			form = UserForm()
-			messages.error(request, 'Error creating User, please try again.')
+			messages.error(request, r.json()['error'])
 			return render(request, 'frontend/create_user.html', {'form': form})
 
 	else:
