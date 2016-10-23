@@ -108,9 +108,15 @@ class ModelsTests(TestCase):
 
     def test_login_valid_user(self):
         data = {'username':'jujuOnTheBeat', 'date_joined': timezone.now(), 'f_name': 'Nick', 'l_name': 'Qua', 'password':'jujubeans', 'is_active': 'true'}
+        response = self.client.post(reverse('create-user'), data)
+        data = {'username':'jujuOnTheBeat', 'password':'jujubeans'}
         response = self.client.post(reverse('login-mod'), data)
-        print(response.content)
-        self.assertContains(response, 'jujuOnTheBeat')
+        self.assertContains(response, 'true')
+
+    def test_login_invalid_user(self):
+        data = {'username':'jujuOnTheBeat', 'password':'jujubeans'}
+        response = self.client.post(reverse('login-mod'), data)
+        self.assertContains(response, 'false')
 
     def tearDown(self):
     	pass
