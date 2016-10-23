@@ -106,5 +106,11 @@ class ModelsTests(TestCase):
         response=self.client.post(reverse('update-user', kwargs={'user_id':2}), data)
         self.assertContains(response, 'Phatcheeekan')
 
+    def test_login_valid_user(self):
+        data = {'username':'jujuOnTheBeat', 'date_joined': timezone.now(), 'f_name': 'Nick', 'l_name': 'Qua', 'password':'jujubeans', 'is_active': 'true'}
+        response = self.client.post(reverse('login-mod'), data)
+        print(response.content)
+        self.assertContains(response, 'jujuOnTheBeat')
+
     def tearDown(self):
     	pass
