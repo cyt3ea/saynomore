@@ -89,11 +89,10 @@ def create_user(request):
 			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
 			# return HttpResponse(userdata)
 			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
-			# return HttpResponse(r)
 			if r.json()['ok'] == True:
 				return index(request)
 			form = UserForm()
-			messages.error(request, r.json()['error'])
+			messages.error(request, 'Error creating User, please try again.')
 			return render(request, 'frontend/create_user.html', {'form': form})
 
 	else:
@@ -112,16 +111,21 @@ def login(request):
 			jsonLogin = {'username':input_username, 'password':input_password}
 			r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
 			# return HttpResponse(r.json().items())
-			return HttpResponse(r.json()['ok'])
+			# return HttpResponse(r)
 
 			if r.json()['ok'] == True:
 				# return HttpResponse(r)
-				return index(request)
+				authenticator = r.json()['resp']['authenticator_id']
+				# return HttpResponse(authenticator)
+				response = index(request)
+				response.set_cookie("auth", authenticator, max_age=25)
+				return response
 			form = LoginForm()
 			messages.error(request, 'Invalid username/password combination.')
 			return render(request, 'frontend/login.html', {'form': form})
 	else:
 		return _error_response(request, 'Must be POST or GET request')
+
 	return render(request, 'frontend/login.html', {'form': form})
 	
 def _error_response(request, error_msg):

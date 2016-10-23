@@ -2,7 +2,7 @@ import datetime
 from django.contrib.auth import hashers
 import os
 import hmac
-import settings
+from django.conf import settings
 
 from django.shortcuts import render, get_object_or_404
 
@@ -429,14 +429,16 @@ def login_mod(request):
 
 	if is_valid_user == True:
 		auth_id = hmac.new(key = settings.SECRET_KEY.encode('utf-8'), msg = os.urandom(32), digestmod = 'sha256').hexdigest()
-		a = models.Authenticator(user_id = user.id,
+		a = models.Authenticator(user_id = user,
 								authenticator_id = auth_id,
 								date_created = datetime.datetime.now())
+
 		try:
-	    	r.save()
+			a.save()
 		except db.Error:
-	    	return _error_response(request, "db error: saving reviews - " + str(u.id))
+			return _error_response(request, "db error: saving authenticator- " + str(a.id))
 		return _success_response(request, model_to_dict(a))
+
 	else:
 		return _error_response(request, "Invalid username/password combination")
 
