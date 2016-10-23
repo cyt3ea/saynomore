@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from .forms import NameForm, HairForm
 
 import urllib.request
 import urllib.parse
@@ -40,6 +41,18 @@ def stylist_detail(request, stylist_id):
 		resp_jsonReviews = urllib.request.urlopen(reqReviews).read().decode('utf8')
 		respReviews = json.loads(resp_jsonReviews)['resp']
 		return render(request, 'frontend/stylist_detail.html', {'stylist': respStylist, 'reviews': respReviews})
+
+def create_hair(request):
+	if request.method == 'GET':
+		form = HairForm()
+	elif request.method == 'POST':
+		form = HairForm(request.POST)
+		if form.is_valid():
+			return HttpResponse("Valid Hair yay!")
+	else:
+		return _error_response(request, 'Must be GET request')
+	return render(request, 'frontend/new_hair.html', {'form': form})
+
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
