@@ -112,8 +112,9 @@ def create_user(request):
 	if request.method != 'POST':
 		return _error_response(request, 'Must be POST request')
 	else:
-		data = {'firstname':firstname, 'last': last, 'username':username, 'password':password}
-    	r = requests.post('http://models-api:8000/api/v1/users/create/', data)
+		userdata = {'f_name':request.POST['firstname'], 'l_name': request.POST['lastname'], 'username':request.POST['username'], 'password':request['password']}
+    	r = requests.post('http://models-api:8000/api/v1/users/create/', data=userdata)
+    	return HttpResponse(r)
 
 
 def _error_response(request, error_msg):

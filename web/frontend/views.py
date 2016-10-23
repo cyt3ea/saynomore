@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-<<<<<<< Updated upstream
-from .forms import NameForm, HairForm, LoginForm
+from .forms import UserForm, HairForm, LoginForm
 from django.contrib import messages
 
 import requests
@@ -86,8 +85,8 @@ def create_user(request):
 			username = form.cleaned_data['username']
 			password = form.cleaned_data['password']
 
-			data = {'f_name':firstname, 'l_name': lastname, 'username':username, 'password':password}
-			r = requests.post('http://exp-api:8000/api/v1/create_user/', data)
+			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
+			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
 
 			return HttpResponse("Account has been created!")
 			
