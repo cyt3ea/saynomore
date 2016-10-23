@@ -99,23 +99,23 @@ def createHair(request):
 		return _error_response(request, 'Must be POST request')
 
 #Calls the Login API from the models layer
-def login_exp(request, username, password):
-	if request.method != 'POST':
-		return _error_response(request, 'Must be POST request')
-	else:
-		req = urllib.request.Request('http://models-api:8000/api/v1/login_mod/')
-		resp_json = urllib.request.urlopen(req).read().decode('utf8')
-		resp = json.loads(resp_json)
-		login = resp["resp"]["login"]
-		return JsonResponse(resp)
+def login_exp(request):
+	if request.method == 'POST':
+		loginData = {'username': request.POST['username'], 'password': request.POST['password'],}
+		r = requests.post('http://models-api:8000/api/v1/login_mod/', data=loginData)
+		return HttpResponse(r)
 
-# def create_user(request):
-# 	if request.method != 'POST':
-# 		return _error_response(request, 'Must be POST request')
-# 	else:
-# 		userdata = {'f_name':request.POST['firstname'], 'l_name': request.POST['lastname'], 'username':request.POST['username'], 'password':request['password']}
-#     	r = requests.post('http://models-api:8000/api/v1/users/create/', data=userdata)
-#     	return HttpResponse(r)
+	else:
+		return _error_response(request, 'Must be POST request')
+	
+def create_user(request):
+	if request.method == 'POST':
+		userdata = {'f_name':request.POST['firstname'], 'l_name': request.POST['lastname'], 'username':request.POST['username'], 'password':request.POST['password']}
+		r = requests.post('http://models-api:8000/api/v1/users/create/', data=userdata)
+		return HttpResponse(r)
+
+	else:
+		return _error_response(request, 'Must be POST request')
 
 
 def _error_response(request, error_msg):

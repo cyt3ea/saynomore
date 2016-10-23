@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^hair/(?P<hair_id>\d+)/$', views.hair_detail, name="hair-detail"),
     url(r'^stylist/(?P<stylist_id>\d+)/$', views.stylist_detail, name="stylist-detail"),
     url(r'^create_hair/$', views.create_hair, name="create-hair"),
+
     url(r'^login/', views.login, name='LoginForm'),
-    # url(r'^create_user/$', views.create_user, name="create-user"),
+    url(r'^create_user/$', views.create_user, name="create-user"),
 ]

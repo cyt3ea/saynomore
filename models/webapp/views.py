@@ -402,13 +402,17 @@ def _stylist_reviews(stylist_id):
 	reviews = list(map(model_to_dict, reviews))
 	return reviews
 
-def login_mod(request, input_username, input_password):
+def login_mod(request):
 	if request.method != 'POST':
-		return _error_response(request, "Must make POST request")
-	
-	is_valid_user = models.User.objects.filter(username=input_username, password=input_password).exists()
+		return _error_response(request, "Model: Must make POST request")
+	try:
+		user = models.User.objects.get(username=request.POST['username'])
+	except:
+		return _error_response(request, "User not found :-(")
+	is_valid_user = hashers.check_password(request.POST['password'], user.password)
+
 	if is_valid_user:
-			
+		return _success_response(request)
 	else:
 		return _error_response(request, "Invalid username/password combination")
 
