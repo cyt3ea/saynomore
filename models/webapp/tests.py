@@ -118,5 +118,14 @@ class ModelsTests(TestCase):
         response = self.client.post(reverse('login-mod'), data)
         self.assertContains(response, 'false')
 
+    def test_lookup_authenticator(self):
+        # data = {'date_created': '2016-10-23T21:00:01.083Z', 'authenticator_id': 'a20b4bc19fa0cabe9afade34227521bdb4b90f006058f67b5d41e98f8001d1ba', 'user_id': 1}
+        response = self.client.get(reverse('lookup-auth', kwargs={'auth_id':'a20b4bc19fa0cabe9afade34227521bdb4b90f006058f67b5d41e98f8001d1ba'}))
+        self.assertContains(response, '2016-10-23T21:00:01.083Z')
+
+    def test_delete_authenticator(self):
+        response = self.client.delete(reverse('delete-auth', kwargs={'auth_id':'a20b4bc19fa0cabe9afade34227521bdb4b90f006058f67b5d41e98f8001d1ba'}))
+        self.assertContains(response, 'true')
+
     def tearDown(self):
     	pass

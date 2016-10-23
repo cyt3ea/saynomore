@@ -34,5 +34,5 @@ class Review(models.Model):
 
 class Authenticator(models.Model):
 	user_id = models.ForeignKey(User)
-	authenticator_id = models.CharField(max_length=96)
+	authenticator_id = models.CharField(max_length=96, primary_key=True)
 	date_created = models.DateTimeField()
