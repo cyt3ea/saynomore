@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'^hair/(?P<hair_id>\d+)/$', views.hair_detail, name="hair-detail"),
     url(r'^stylist/(?P<stylist_id>\d+)/$', views.stylist_detail, name="stylist-detail"),
+    url(r'^form/', views.get_name, name="testForm"),
 ]

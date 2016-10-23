@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from .forms import NameForm
 
 import urllib.request
 import urllib.parse
@@ -40,6 +41,22 @@ def stylist_detail(request, stylist_id):
 		resp_jsonReviews = urllib.request.urlopen(reqReviews).read().decode('utf8')
 		respReviews = json.loads(resp_jsonReviews)['resp']
 		return render(request, 'frontend/stylist_detail.html', {'stylist': respStylist, 'reviews': respReviews})
+
+def get_name(request):
+	# if this is a Post request we need to process the form data
+	if request.method == 'POST':
+		#create a form instance and populate it with data from the request:
+		form = NameForm(request.POST)
+		# check whether it's valid:
+		if form.is_valid():
+			# process the data in form.cleaned_data as required 
+			# ...
+			# redirect to new URL:
+			return HttpResponseRedirect('/thanks/')
+		# if a GET (or any other method) we'll create a blank form
+	else:
+		form = NameForm()
+	return render(request, 'name.html', {'form': form})
 
 def _error_response(request, error_msg):
 	return JsonResponse({'ok': False, 'error': error_msg})
