@@ -114,6 +114,13 @@ def check_authenticator(request):
 	else:
 		return _error_response(request, 'Must be POST request')
 
+def delete_authenticator(request):
+	if request.method == 'POST':
+		r = requests.delete('http://models-api:8000/api/v1/authenticator/delete/' + request.POST['userAuth'] + '/')
+		return HttpResponse(r)
+	else:
+		return _error_response(request, 'Must be POST request')
+
 def create_user(request):
 	if request.method == 'POST':
 		userdata = {'f_name':request.POST['firstname'], 'l_name': request.POST['lastname'], 'username':request.POST['username'], 'password':request.POST['password']}
