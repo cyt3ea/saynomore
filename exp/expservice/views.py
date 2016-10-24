@@ -104,7 +104,13 @@ def login_exp(request):
 		loginData = {'username': request.POST['username'], 'password': request.POST['password'],}
 		r = requests.post('http://models-api:8000/api/v1/login_mod/', data=loginData)
 		return HttpResponse(r)
+	else:
+		return _error_response(request, 'Must be POST request')
 
+def check_authenticator(request):
+	if request.method == 'POST':
+		r = requests.get('http://models-api:8000/api/v1/authenticator/' + request.POST['userAuth'] + '/')
+		return HttpResponse(r)
 	else:
 		return _error_response(request, 'Must be POST request')
 
