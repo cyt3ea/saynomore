@@ -119,8 +119,10 @@ def create_user(request):
 		return _error_response(request, 'Must be POST or GET request')
 	return render(request, 'frontend/create_user.html', {'form': form})
 
+from django.conf import settings
 #Check login through all the layers
 def login(request):
+	# return HttpResponse(settings.STATICFILES_DIRS)
 	#Check to see if cookie is already stored. If yes,
 	if request.COOKIES.get('auth') != None:
 		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
@@ -130,6 +132,7 @@ def login(request):
 	if request.method == 'GET':
 		form = LoginForm()
 	elif request.method == 'POST':
+		# return HttpResponse(request.GET.get('next'))
 		form = LoginForm(request.POST)
 		if form.is_valid():
 			input_username = form.cleaned_data['username']
@@ -138,7 +141,7 @@ def login(request):
 			r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
 			if r.json()['ok'] == True:
 				authenticator = r.json()['resp']['authenticator_id']
-				response = HttpResponseRedirect(reverse('index'))
+				response = HttpResponseRedirect(request.GET.get('next', '/index/'))
 				response.set_cookie("auth", authenticator, max_age=1800)
 				return response
 			form = LoginForm()
