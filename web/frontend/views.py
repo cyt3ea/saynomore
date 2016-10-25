@@ -10,19 +10,23 @@ import urllib.parse
 import json
 import time
 
-def index(request):
-	# time.sleep(0.5)
-	if request.COOKIES.get('auth') == None:
-		messages.error(request, "Must login to saynomore.")
-		form = LoginForm()
-		return render(request, 'frontend/login.html', {'form': form})
-	if request.COOKIES.get('auth') != None:
-		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-		r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
-		if r.json()['ok'] == False:
+def login_required(f):
+	def wrap(request, *args, **kwargs):
+		# try authenticating the user
+		if request.COOKIES.get('auth') == None:
 			messages.error(request, "Must login to saynomore.")
-			form = LoginForm()
-			return render(request, 'frontend/login.html', {'form': form})
+			return HttpResponseRedirect(reverse('login')+'?next='+request.path)
+		elif request.COOKIES.get('auth') != None:
+			jsonLogin = {'userAuth': request.COOKIES.get('auth')}
+			r = requests.post('http://exp-api:8000/api/v1/authenticators/check_user/', data=jsonLogin)
+			if r.json()['ok'] == False:
+				messages.error(request, "Must login to saynomore.")
+				return HttpResponseRedirect(reverse('login')+'?next='+request.path)
+		return f(request, *args, **kwargs)
+	return wrap
+
+@login_required
+def index(request):
 	reqHair = urllib.request.Request('http://exp-api:8000/api/v1/all_hairs/')
 	resp_jsonHair = urllib.request.urlopen(reqHair).read().decode('utf8')
 	respHair = json.loads(resp_jsonHair)['resp']
@@ -31,18 +35,8 @@ def index(request):
 	respStylists = json.loads(resp_jsonStylists)['resp']
 	return render(request, 'frontend/index.html', {'respHair': respHair, 'respStylists': respStylists})
 
+@login_required
 def hair_detail(request, hair_id):
-	if request.COOKIES.get('auth') == None:
-		messages.error(request, "Must login to saynomore.")
-		form = LoginForm()
-		return render(request, 'frontend/login.html', {'form': form})
-	else:
-		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-		r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
-		if r.json()['ok'] == False:
-			messages.error(request, "Must login to saynomore.")
-			form = LoginForm()
-			return render(request, 'frontend/login.html', {'form': form})
 	if request.method != 'GET':
 		return _error_response(request, 'Must be GET request')
 	else:
@@ -51,18 +45,8 @@ def hair_detail(request, hair_id):
 		resp = json.loads(resp_json)['resp']
 		return render(request, 'frontend/hair_detail.html', {'resp': resp})
 
+@login_required
 def stylist_detail(request, stylist_id):
-	if request.COOKIES.get('auth') == None:
-		messages.error(request, "Must login to saynomore.")
-		form = LoginForm()
-		return render(request, 'frontend/login.html', {'form': form})
-	else:
-		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-		r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
-		if r.json()['ok'] == False:
-			messages.error(request, "Must login to saynomore.")
-			form = LoginForm()
-			return render(request, 'frontend/login.html', {'form': form})
 	if request.method != 'GET':
 		return _error_response(request, 'Must be GET request')
 	else:
@@ -74,18 +58,8 @@ def stylist_detail(request, stylist_id):
 		respReviews = json.loads(resp_jsonReviews)['resp']
 		return render(request, 'frontend/stylist_detail.html', {'stylist': respStylist, 'reviews': respReviews})
 
+@login_required
 def create_hair(request):
-	if request.COOKIES.get('auth') == None:
-		messages.error(request, "Must login to saynomore.")
-		form = LoginForm()
-		return render(request, 'frontend/login.html', {'form': form})
-	else:
-		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-		r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
-		if r.json()['ok'] == False:
-			messages.error(request, "Must login to saynomore.")
-			form = LoginForm()
-			return render(request, 'frontend/login.html', {'form': form})
 	if request.method == 'GET':
 		form = HairForm()
 	elif request.method == 'POST':
@@ -96,9 +70,8 @@ def create_hair(request):
 			location = form.cleaned_data['location']
 			price = form.cleaned_data['price']
 			phone_number = form.cleaned_data['phone_number']
-			# author = request.user.id
 			jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-			r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
+			r = requests.post('http://exp-api:8000/api/v1/authenticators/check_user/', data=jsonLogin)
 			if r.json()['ok'] == True:
 				author = r.json()['resp']['user_id']
 			else:
@@ -106,9 +79,7 @@ def create_hair(request):
 				messages.error(request, 'Could not find author.')
 				return render(request, 'frontend/create_hair.html', {'form': form})
 			upvotes = 0
-			# return HttpResponse(upvotes)
 			jsonHair = {'location':location, 'price':price, 'hair_phone_number': phone_number, 'stylist':stylist, 'hair_upvotes': upvotes, 'author': author, 'name':name}
-			# return HttpResponse(jsonStylist)
 			r = requests.post('http://exp-api:8000/api/v1/create_hair/', data=jsonHair)
 			if r.json()['ok'] == True:
 				return HttpResponseRedirect(reverse('index'))
@@ -122,7 +93,7 @@ def create_hair(request):
 def create_user(request):
 	if request.COOKIES.get('auth') != None:
 		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-		r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
+		r = requests.post('http://exp-api:8000/api/v1/authenticators/check_user/', data=jsonLogin)
 		if r.json()['ok'] == True:
 			return HttpResponseRedirect(reverse('index'))
 	if request.method == 'GET':
@@ -137,7 +108,6 @@ def create_user(request):
 			username = form.cleaned_data['username']
 			password = form.cleaned_data['password']
 			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
-			# return HttpResponse(userdata)
 			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
 			if r.json()['ok'] == True:
 				form = LoginForm()
@@ -154,7 +124,7 @@ def login(request):
 	#Check to see if cookie is already stored. If yes,
 	if request.COOKIES.get('auth') != None:
 		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-		r = requests.post('http://exp-api:8000/api/v1/authenticators/check/', data=jsonLogin)
+		r = requests.post('http://exp-api:8000/api/v1/authenticators/check_user/', data=jsonLogin)
 		if r.json()['ok'] == True:
 			return HttpResponseRedirect(reverse('index'))
 	if request.method == 'GET':
@@ -166,13 +136,8 @@ def login(request):
 			input_password = form.cleaned_data['password']
 			jsonLogin = {'username':input_username, 'password':input_password}
 			r = requests.post('http://exp-api:8000/api/v1/login_exp/', data=jsonLogin)
-			# return HttpResponse(r.json().items())
-			# return HttpResponse(request.COOKIES.get('auth'))
-
 			if r.json()['ok'] == True:
-				# return HttpResponse(r)
 				authenticator = r.json()['resp']['authenticator_id']
-				# return HttpResponse(authenticator)
 				response = HttpResponseRedirect(reverse('index'))
 				response.set_cookie("auth", authenticator, max_age=1800)
 				return response
@@ -184,22 +149,17 @@ def login(request):
 
 	return render(request, 'frontend/login.html', {'form': form})
 
+@login_required
 def logout(request):
 	if request.method == 'GET':
-		if request.COOKIES.get('auth') != None:
-			jsonLogin = {'userAuth': request.COOKIES.get('auth')}
-			r = requests.post('http://exp-api:8000/api/v1/authenticators/delete/', data=jsonLogin)
-			# return HttpResponse(r)
-			if r.json()['ok'] == True:
-				messages.success(request, "Successfully Logged Out")
-				form = LoginForm()
-				return render(request, 'frontend/login.html', {'form': form})
-			else:
-				return _error_response(request, "Could not find authenticator.")
-		else:
-			messages.error(request, "Must be logged in to logout")
+		jsonLogin = {'userAuth': request.COOKIES.get('auth')}
+		r = requests.post('http://exp-api:8000/api/v1/logout/', data=jsonLogin)
+		if r.json()['ok'] == True:
+			messages.success(request, "Successfully Logged Out")
 			form = LoginForm()
 			return render(request, 'frontend/login.html', {'form': form})
+		else:
+			return _error_response(request, "Could not find authenticator.")
 	else:
 		return _error_response(request, 'Must be GET request')
 	

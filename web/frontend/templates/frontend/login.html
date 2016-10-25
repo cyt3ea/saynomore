@@ -18,7 +18,7 @@
 	{% endif %}
 </div>
 <div class="col-md-4 text-center">
-<form action="{% url 'LoginForm' %}" method="post">
+<form action="{% url 'login' %}" method="post">
 	    {% for field in form %}
 	    <br>
 	        {% if field.errors %}

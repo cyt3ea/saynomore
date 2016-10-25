@@ -124,17 +124,8 @@ def delete_authenticator(request):
 def create_user(request):
 	if request.method == 'POST':
 		userdata = {'f_name':request.POST['firstname'], 'l_name': request.POST['lastname'], 'username':request.POST['username'], 'password':request.POST['password']}
-		req = urllib.request.Request('http://models-api:8000/api/v1/users/all_users/')
-		resp_json = urllib.request.urlopen(req).read().decode('utf8')
-		resp = json.loads(resp_json)
-		all_users = resp["resp"]["all_users"]
-		user_exists = False
-		# return HttpResponse(all_users)
-		for user in all_users:
-			if user['username'] == request.POST['username']:
-				user_exists = True
-				break
-		if user_exists:
+		r = requests.post('http://models-api:8000/api/v1/users/exists/', data=userdata)
+		if r.json()['ok'] == True: # user exists
 			return HttpResponse(_error_response(request, "Username already exists."))		
 		r = requests.post('http://models-api:8000/api/v1/users/create/', data=userdata)
 		return HttpResponse(r)

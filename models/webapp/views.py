@@ -209,6 +209,14 @@ def _all_users():
 	users = list(map(model_to_dict, users))
 	return users
 
+def user_exists(request):
+	if request.method != 'POST':
+		return _error_response(request, "Must make POST request")
+	exists = models.User.objects.filter(username=request.POST['username']).exists()
+	if exists:
+		return _success_response(request)
+	return _error_response(request, 'User does not exist')
+
 # Tested using django client tool -- go into python manage.py shell
 # from django.test import Client
 # c = Client()

@@ -28,8 +28,8 @@ urlpatterns = [
     url(r'^api/v1/create_user/$', views.create_user, name='create-user'),    
     url(r'^api/v1/login_exp/$', views.login_exp, name='login-exp'),
     url(r'^api/v1/users/all_users/$', views.all_users, name='all-users'),
-    url(r'^api/v1/authenticators/check/$', views.check_authenticator, name='check-authenticator'),
-    url(r'^api/v1/authenticators/delete/$', views.delete_authenticator, name='delete-authenticator'),
+    url(r'^api/v1/authenticators/check_user/$', views.check_authenticator, name='check-authenticator'),
+    url(r'^api/v1/logout/$', views.delete_authenticator, name='delete-authenticator'),
 
 ]
 
