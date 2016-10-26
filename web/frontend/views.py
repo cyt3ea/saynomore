@@ -75,17 +75,15 @@ def create_hair(request):
 			if r.json()['ok'] == True:
 				author = r.json()['resp']['user_id']
 			else:
-				form = HairForm()
 				messages.error(request, 'Could not find author.')
-				return render(request, 'frontend/create_hair.html', {'form': form})
+				return HttpResponseRedirect(reverse('create-hair'))
 			upvotes = 0
 			jsonHair = {'location':location, 'price':price, 'hair_phone_number': phone_number, 'stylist':stylist, 'hair_upvotes': upvotes, 'author': author, 'name':name}
 			r = requests.post('http://exp-api:8000/api/v1/create_hair/', data=jsonHair)
 			if r.json()['ok'] == True:
 				return HttpResponseRedirect(reverse('index'))
-			form = HairForm()
 			messages.error(request, 'Error creating hair, please try again.')
-			return render(request, 'frontend/create_hair.html', {'form': form})
+			return HttpResponseRedirect(reverse('create-hair'))
 	else:
 		return _error_response(request, 'Must be POST or GET request')
 	return render(request, 'frontend/create_hair.html', {'form': form})
@@ -110,11 +108,10 @@ def create_user(request):
 			userdata = {'firstname':firstname, 'lastname': lastname, 'username':username, 'password':password}
 			r = requests.post('http://exp-api:8000/api/v1/create_user/', data=userdata)
 			if r.json()['ok'] == True:
-				form = LoginForm()
-				return render(request, 'frontend/login.html', {'form': form})
+				return HttpResponseRedirect(reverse('login'))
 			form = UserForm()
 			messages.error(request, r.json()['error'])
-			return render(request, 'frontend/create_user.html', {'form': form})
+			return HttpResponseRedirect(reverse('create-user'))
 	else:
 		return _error_response(request, 'Must be POST or GET request')
 	return render(request, 'frontend/create_user.html', {'form': form})
