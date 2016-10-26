@@ -5,34 +5,42 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
-<h1>Barber: Whatchu want? <br>
-	Me: Gimme that low fade <br>
-	Barber: <strong>saynomore.</strong>
-</h1>
-<div id="content">
+<div id="content" >
 	{% if messages %}
 		{% for message in messages %}
 			{% if message.tags == "error" %}
-				<p class="alert alert-danger"> {{message}} </p>
+				<p class="alert alert-danger" style="margin-bottom:0px;"> {{message}} </p>
 			{% elif message.tags == "success" %}
-				<p class="alert alert-success"> {{message}} </p>
+				<p class="alert alert-success" style="margin-bottom:0px;"> {{message}} </p>
 			{% elif message.tags == "info" %}
-				<p class="alert alert-info"> {{message}} </p>
+				<p class="alert alert-info" style="margin-bottom:0px;"> {{message}} </p>
 			{% elif message.tags == "warning" %}
-				<p class="alert alert-warning"> {{message}} </p>
+				<p class="alert alert-warning" style="margin-bottom:0px;"> {{message}} </p>
 			{% endif %}
 		{% endfor %}
 	{% endif %}
 </div>
-<div class="col-md-4 text-center">
+<div class="text-center jumbotron" style="background: #483D8B; color:white;">
+	<div class="container-fluid">
+		<h2> <strong> saynomore <strong> </h2>
+		<hr>
+		<h3>Barber: Whatchu want? <br>
+			Me: Gimme that low fade <br>
+			Barber: <strong>saynomore.</strong>
+		</h3>
+		<hr>
+	</div>
+</div>
+<div class="text-center">
+<div>
 <form action="" method="post">
 	    {% for field in form %}
 	    <br>
 	        {% if field.errors %}
 	            <div class="form-group has-error">
-	                <label class="col-sm-2 control-label" for="id_{{ field.name }}">
+	                <label for="id_{{ field.name }}">
 	                {{ field.label }}</label>
-	                <div class="col-sm-10">
+	                <div >
 	                    {{ field }}
 	                    <span class="help-block">
 	                        {% for error in  field.errors %}{{ error }}{% endfor %}
@@ -41,8 +49,8 @@
 	            </div>
 	        {% else %}
 	            <div class="form-group">
-	                <label class="col-sm-2 control-label" for="id_{{ field.name }}">{{ field.label }}</label>
-	                <div class="col-sm-10">
+	                <label for="id_{{ field.name }}">{{ field.label }}</label>
+	                <div>
 	                    {{ field }}
 	                    {% if field.help_text %}
 	                        <p class="help-block"><small>{{ field.help_text }}</small></p>
@@ -52,13 +60,14 @@
 	        {% endif %}
 	        <br>
 	    {% endfor %}
-	    <div class="form-group">
-	        <div class="col-sm-offset-2 col-sm-10">
+	    <div class="form-group text-center">
+	        <div>
 	        	<br>
 	            <button type="submit" class="btn btn-primary" value="Login">Login</button>
 	            <a class="btn btn-primary" href="{% url 'create-user' %}" role="button">Sign Up</a>
 	        </div>
 	    </div>
 </form>
+</div>
 </div>
 
