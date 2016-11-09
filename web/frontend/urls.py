@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^$', views.login, name="login"),
     url(r'^create_user/$', views.create_user, name="create-user"),
     url(r'^logout/$', views.logout, name="logout"),
+    url(r'^search/', views.search_hairstyle, name="search-hairstyle"),
 ]

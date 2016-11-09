@@ -24,14 +24,13 @@
 <div>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-12">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search for hairstyles..."">
+			
+				<form method="GET" action='{% url "search-hairstyle" %}'>
+					<input type="text" class="form-control" name="hairstyle_search" placeholder="Search for hairstyles...">
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="button"> Search </button>
+						<button class="btn btn-default" type="submit"> Search </button>
 					</span>
-				</div>
-			</div>
+					</form>
 		</div>
 	</div>
 </div>
@@ -72,10 +71,12 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search for hairstyles..."">
+					<form method="GET">
+					<input type="text" class="form-control" name = "stylist_search" placeholder="Search for stylists...">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button"> Search </button>
 					</span>
+					</form>
 				</div>
 			</div>
 		</div>
