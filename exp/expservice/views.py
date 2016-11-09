@@ -93,10 +93,11 @@ def getStylistFK(stylist):
 def createHair(request):
 	if request.method == 'POST':
 		jsonHair = {'location':request.POST['location'], 'price':request.POST['price'], 'hair_phone_number': request.POST['hair_phone_number'], 'stylist':request.POST['stylist'], 'hair_upvotes': request.POST['hair_upvotes'], 'author': request.POST['author'], 'name':request.POST['name']}
-		producer = KafkaProducer(bootstrap_servers='kafka:9092')
-		new_listing = {'price':request.POST['price'], 'stylist':request.POST['stylist'], 'hair_upvotes': request.POST['hair_upvotes'], 'name': request.POST['name']}
-		producer.send('new-hair-listing', json.dumps(new_listing).encode('utf-8'))
 		r = requests.post('http://models-api:8000/api/v1/hairs/create/', data=jsonHair)
+		# return HttpResponse(r)
+		producer = KafkaProducer(bootstrap_servers='kafka:9092')
+		new_listing = {'price':r.json()['resp']['price'], 'stylist':r.json()['resp']['stylist'], 'hair_upvotes': r.json()['resp']['hair_upvotes'], 'name': r.json()['resp']['name'], 'id': r.json()['resp']['id']}
+		producer.send('new-hair-listing', json.dumps(new_listing).encode('utf-8'))
 		# producer.send('new-hair-listing', json.dumps(jsonHair).encode('utf-8'))
 		return HttpResponse(r)
 	else:
