@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from kafka import KafkaProducer
 
 import requests
 import urllib.request
 import urllib.parse
 import json
-
 
 def all_hairs(request):
 	if request.method != 'GET':
@@ -91,9 +91,11 @@ def getStylistFK(stylist):
 	stylist["user"] = respStylist["resp"]
 
 def createHair(request):
+	producer = KafkaProducer(bootstrap_server='kafka:9092')
 	if request.method == 'POST':
 		jsonHair = {'location':request.POST['location'], 'price':request.POST['price'], 'hair_phone_number': request.POST['hair_phone_number'], 'stylist':request.POST['stylist'], 'hair_upvotes': request.POST['hair_upvotes'], 'author': request.POST['author'], 'name':request.POST['name']}
 		r = requests.post('http://models-api:8000/api/v1/hairs/create/', data=jsonHair)
+		# producer.send('new-hair-listing', json.dumps(jsonHair).encode('utf-8'))
 		return HttpResponse(r)
 	else:
 		return _error_response(request, 'Must be POST request')

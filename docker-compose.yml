@@ -13,6 +13,8 @@ exp:
     image: tp33/django
     links:
       - models:models-api
+      - kafka:kafka
+      - es:es
     volumes:
       - ./exp:/app
     ports:
@@ -49,4 +51,4 @@ batch:
    links:
       - kafka:kafka
       - es:es
-   command: <run a python script that pulls messages from Kafka and indexs that in ES>
+   # command: <run a python script that pulls messages from Kafka and indexs that in ES>
