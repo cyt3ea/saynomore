@@ -34,6 +34,8 @@ web:
 kafka:
    image: spotify/kafka
    container_name: kafka
+   # ports:
+   #  - "9092:8000"
    environment:
       ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
@@ -48,7 +50,9 @@ es:
 batch:
    image: tp33/django
    container_name: batch
+   volumes:
+    - ./batch:/app
    links:
       - kafka:kafka
       - es:es
-   # command: <run a python script that pulls messages from Kafka and indexs that in ES>
+   command: bash -c "python script.py && tail -f /dev/null"
