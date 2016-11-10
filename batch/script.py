@@ -13,7 +13,12 @@ import json
 
 while True:
 	time.sleep(30)
+	hair_fixture_one = {'price' : 18.77, 'stylist' : 'Robby McJimbers', 'hair_upvotes' : 2,	'name': 'McFlurry', 'id': 1}
+	hair_fixture_two = {'price' : 7.99, 'stylist' : 'Clark McHarrington', 'hair_upvotes' : 1,	'name': 'The Womanizer', 'id': 2}
 	es = Elasticsearch(['es'])
+	es.index(index='listing_index', doc_type='listing', id=hair_fixture_one['id'], body=hair_fixture_one)
+	es.index(index='listing_index', doc_type='listing', id=hair_fixture_two['id'], body=hair_fixture_two)
+	es.indices.refresh(index="listing_index")
 	try:
 		consumer = KafkaConsumer('new-hair-listing', group_id='listing-indexer', bootstrap_servers=['kafka:9092'])
 	except:
