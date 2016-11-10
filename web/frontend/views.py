@@ -173,7 +173,6 @@ def _success_response(request, resp=None):
 		return JsonResponse({'ok': True})
 
 def search_hairstyle(request):
-	jsonHairQuery = {'query': request.GET['hairstyle_search']}
-	r = requests.post('http://exp-api:8000/api/v1/find_hairs/', data=jsonHairQuery)
-	return HttpResponse(r)
-	# return render(request, 'frontend/search_results.html')
+	search = {'query': request.POST['hairstyle_search']}
+	r = requests.post('http://exp-api:8000/api/v1/find_hairs/', data=search)
+	return render(request, 'frontend/search_results.html', {'search': search})
