@@ -176,7 +176,10 @@ def search_hairstyle(request):
 	search = {'query': request.POST['hairstyle_search']}
 	r = requests.post('http://exp-api:8000/api/v1/find_hairs/', data=search)
 	results = []
-	for i in range(len(r.json()['resp'])):
-		results.append(r.json()['resp'][i])
+	# if 'error' in r.json()['resp']:
+	# 	return render(request, 'frontend/search_results.html', r.json()['resp'][0])
+	if r.json()['ok'] == True:
+		for i in range(len(r.json()['resp'])):
+			results.append(r.json()['resp'][i])
 	# return HttpResponse(r.json()['resp'][0]['name'])
 	return render(request, 'frontend/search_results.html', {'results': results, 'search': search})

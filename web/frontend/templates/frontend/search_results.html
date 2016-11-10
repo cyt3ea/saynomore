@@ -7,6 +7,7 @@
 		<h3 style="color:white;"> Search Results for {{ search.query }}</h3>
 	</div>
 </div>
+{% if results %}
 
 {% for hair in results %}
 	<div class="col-sm-6 col-md-4">
@@ -24,5 +25,8 @@
 			    </div>
 			</div>
 {% endfor %}
+{% else %}
+	<center><h2> No Hairs Found </h2></center>
+{% endif %}
 
 {% endblock %}

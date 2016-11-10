@@ -53,9 +53,10 @@ def find_hairs(request):
 			result = es.search(index='listing_index', body={'query': {'query_string': {'query': request.POST['query']}}, 'size': 10})
 			hits = result['hits']['hits']
 			if not hits: 
-				resp.append({'error': 'No matches found'})
+				#resp.append({'error': 'No matches found'})
+				return _error_response(request, 'No matches found')
 			for entry in hits:
-				resp.append(entry['_source'])	
+				resp.append(entry['_source'])
 		else:
 			return _error_response(request, 'No listings in index')
 		
