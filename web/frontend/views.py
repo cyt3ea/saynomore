@@ -179,4 +179,4 @@ def search_hairstyle(request):
 	for i in range(len(r.json()['resp'])):
 		results.append(r.json()['resp'][i])
 	# return HttpResponse(r.json()['resp'][0]['name'])
-	return render(request, 'frontend/search_results.html', {'results': results})
+	return render(request, 'frontend/search_results.html', {'results': results, 'search': search})
