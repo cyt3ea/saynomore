@@ -25,7 +25,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-				<form method="GET" action='{% url "search-hairstyle" %}'>
+				<form method="POST" action='{% url "search-hairstyle" %}'>
 					<input type="text" class="form-control" name="hairstyle_search" placeholder="Search for hairstyles...">
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="submit"> Search </button>
