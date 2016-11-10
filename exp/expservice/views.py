@@ -54,9 +54,9 @@ def find_hairs(request):
 		hits = result['hits']['hits']
 		#return HttpResponse(hits)
 		for entry in hits:
-			resp.append(entry['_source'])	
+			resp.append(entry['_source'])
 		#sample ES response: {'timed_out': False, 'hits': {'total': 1, 'hits': [{'_score': 0.10848885, '_index': 'listing_index', '_source': {'id': 42, 'description': 'This is a used Macbook Air in great condition', 'title': 'Used MacbookAir 13"'}, '_id': '42', '_type': 'listing'}], 'max_score': 0.10848885}, '_shards': {'successful': 5, 'total': 5, 'failed': 0}, 'took': 21}	
-		return JsonResponse(resp, safe=False) 
+		return _success_response(request, resp) 
 
 def getUser(obj):
 	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(obj["author"]) + '/')

@@ -175,5 +175,8 @@ def _success_response(request, resp=None):
 def search_hairstyle(request):
 	search = {'query': request.POST['hairstyle_search']}
 	r = requests.post('http://exp-api:8000/api/v1/find_hairs/', data=search)
-	return HttpResponse(r)
-	return render(request, 'frontend/search_results.html', {'search': search})
+	results = []
+	for i in range(len(r.json()['resp'])):
+		results.append(r.json()['resp'][i])
+	# return HttpResponse(r.json()['resp'][0]['name'])
+	return render(request, 'frontend/search_results.html', {'results': results})
