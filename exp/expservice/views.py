@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 
 import requests
 import urllib.request
@@ -41,6 +42,21 @@ def detail_hair(request, hair_id):
 		hair = resp["resp"]
 		getUser(hair)
 		return JsonResponse(resp)
+
+def find_hairs(request):
+	if request.method != 'POST':
+		return _error_response(request, 'Must be POST request')
+	else:
+		resp = []
+		#return HttpResponse(request.POST['query'])
+		es = Elasticsearch(['es'])
+		result = es.search(index='listing_index', body={'query': {'query_string': {'query': request.POST['query']}}, 'size': 10})
+		hits = result['hits']['hits']
+		#return HttpResponse(hits)
+		for entry in hits:
+			resp.append(entry['_source'])	
+		#sample ES response: {'timed_out': False, 'hits': {'total': 1, 'hits': [{'_score': 0.10848885, '_index': 'listing_index', '_source': {'id': 42, 'description': 'This is a used Macbook Air in great condition', 'title': 'Used MacbookAir 13"'}, '_id': '42', '_type': 'listing'}], 'max_score': 0.10848885}, '_shards': {'successful': 5, 'total': 5, 'failed': 0}, 'took': 21}	
+		return JsonResponse(resp, safe=False) 
 
 def getUser(obj):
 	reqUser = urllib.request.Request('http://models-api:8000/api/v1/users/' + str(obj["author"]) + '/')
@@ -98,7 +114,6 @@ def createHair(request):
 		producer = KafkaProducer(bootstrap_servers='kafka:9092')
 		new_listing = {'price':r.json()['resp']['price'], 'stylist':r.json()['resp']['stylist'], 'hair_upvotes': r.json()['resp']['hair_upvotes'], 'name': r.json()['resp']['name'], 'id': r.json()['resp']['id']}
 		producer.send('new-hair-listing', json.dumps(new_listing).encode('utf-8'))
-		# producer.send('new-hair-listing', json.dumps(jsonHair).encode('utf-8'))
 		return HttpResponse(r)
 	else:
 		return _error_response(request, 'Must be POST request')
