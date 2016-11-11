@@ -8,6 +8,8 @@ import urllib.request
 import urllib.parse
 import json
 
+es = Elasticsearch(['es'])
+
 def all_hairs(request):
 	if request.method != 'GET':
 		return _error_response(request, 'Must be GET request')
@@ -48,11 +50,10 @@ def find_hairs(request):
 		return _error_response(request, 'Must be POST request')
 	else:
 		resp = []
-		es = Elasticsearch(['es'])
 		if es.indices.exists(index='listing_index'):
 			result = es.search(index='listing_index', body={'query': {'query_string': {'query': request.POST['query']}}, 'size': 10})
 			hits = result['hits']['hits']
-			if not hits: 
+			if not hits:
 				#resp.append({'error': 'No matches found'})
 				return _error_response(request, 'No matches found')
 			for entry in hits:
