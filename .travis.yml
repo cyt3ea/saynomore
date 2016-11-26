@@ -17,7 +17,7 @@ install:
   - docker pull mysql:5.7.14
   - docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
   - docker start mysql
-  - docker run -it --name mysql-cmdline --link mysql:db mysql:5.7.14 bash
+  - docker run --name mysql-cmdline --link mysql:db mysql:5.7.14 bash
   # - "mysql -uroot -p'$3cureUS' -h db \"create user 'www'@'%' identified by '$3cureUS';\""
   # - "mysql -uroot -p'$3cureUS' -h db \"create database cs4501 character set utf8;\""
   # - "mysql -uroot -p'$3cureUS' -h db \"grant all on cs4501.* to 'www'@'%';\""
