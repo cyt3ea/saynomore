@@ -3,13 +3,13 @@ sudo: required
 services:
   - mysql
 
-# language: python
+language: python
 
-# python:
-#   - "3.5"
+python:
+  - "3.5"
 
-# env:
-#   - DJANGO=1.10.2
+env:
+  - DJANGO=1.10.2
 
 install:
   - docker pull mysql:5.7.14
