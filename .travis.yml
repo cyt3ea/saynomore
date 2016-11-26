@@ -29,6 +29,7 @@ install:
 
 before_script:
   - docker-compose up -d
+  - docker ps -a
 
 script:
   - >
