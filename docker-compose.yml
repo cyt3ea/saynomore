@@ -4,8 +4,8 @@ models:
       -  mysql:db
     volumes:
       - ./models:/app
-    ports:
-      - "8001:8000"
+    # ports:
+    # - "8001:8000"
     command: bash -c "python manage.py makemigrations webapp && python manage.py migrate && python manage.py loaddata db.json && mod_wsgi-express start-server --working-directory ./ --reload-on-changes models/wsgi.py"
 
 
@@ -19,8 +19,8 @@ exp:
       - es:es
     volumes:
       - ./exp:/app
-    ports:
-      - "8002:8000"
+    # ports:
+    #  - "8002:8000"
     command: bash -c "pip install requests==2.11.1 && mod_wsgi-express start-server --working-directory ./ --reload-on-changes exp/wsgi.py"
 
 web:
@@ -46,8 +46,8 @@ kafka:
 es:
    image: elasticsearch:2.0
    container_name: es
-   ports:
-      - "9200:9200"
+   # ports:
+   #   - "9200:9200"
 
 batch:
    image: tp33/django
