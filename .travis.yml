@@ -2,15 +2,6 @@ sudo: required
 
 services:
   - docker
-  - mysql
-
-language: python
-
-python:
-  - "3.5"
-
-env:
-  - DJANGO=1.10.2
 
 install:
   - docker pull mysql:5.7.14
@@ -33,16 +24,21 @@ before_script:
 
 script:
   - >
-    docker exec -it models bash -c
+    docker exec -it saynomore_models_1 bash -c
     "python manage.py test --noinput"
   - >
-    docker exec -it exp bash -c
+    docker exec -it saynomore_exp_1 bash -c
     "python manage.py test --noinput"
   - >
-    docker exec -it web bash -c
+    docker exec -it saynomore_web_1 bash -c
     "python manage.py test --noinput"
 
-
+after_script:
+  - docker-compose stop
+  - docker stop mysql
+  - docker rm `docker ps -a -q`
+  - docker rmi `docker images -q`
+  - rm -rf db
 
 notifications:
     email:
