@@ -29,12 +29,21 @@ install:
 
 before_script:
   - docker-compose up -d
+
 script:
-  - docker ps -a
-  #Call unit test in each individual container here
+  - >
+    docker exec -it models bash -c
+    "python manage.py test --noinput"
+  - >
+    docker exec -it exp bash -c
+    "python manage.py test --noinput"
+  - >
+    docker exec -it web bash -c
+    "python manage.py test --noinput"
+
 
 
 notifications:
     email:
-        on_success: never
+        on_success: always
         on_failure: never
