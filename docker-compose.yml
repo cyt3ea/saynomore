@@ -58,3 +58,8 @@ batch:
       - kafka:kafka
       - es:es
    command: bash -c "python script.py && tail -f /dev/null"
+
+jmeter:
+  image: hauptmedia/jmeter
+  container_name: jmeter
+  command: bin/bash
