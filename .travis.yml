@@ -2,17 +2,9 @@ sudo: required
 
 services:
   - docker
-  - mysql
-
-language: python
-
-python:
-  - "3.5"
-
-env:
-  - DJANGO=1.10.2
 
 install:
+  - docker start mysql
   - docker-compose up
 
 script:
