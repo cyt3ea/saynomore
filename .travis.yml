@@ -13,9 +13,17 @@ env:
   - DJANGO=1.10.2
 
 install:
+  - docker-compose rm
   - docker pull mysql:5.7.14
   - docker run --name mysql -d -e MYSQL\_ROOT\_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.14
   - docker start mysql
+  - docker-compose up
 
 script:
   - docker ps -a
+
+
+notifications:
+    email:
+        on_success: never
+        on_failure: never
