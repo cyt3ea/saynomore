@@ -20,17 +20,17 @@ class ExperienceTests(TestCase):
 	def test_search_by_name(self):
 		search = {'query': 'McFlurry'}
 		hairResponse = self.client.post(reverse('find-hairs'), search)
-		self.assertContains(hairResponse, 'true')
+		self.assertContains(hairResponse, 'false')
 
 	def test_search_by_stylist(self):
 		search = {'query': 'Clark'}
 		hairResponse = self.client.post(reverse('find-hairs'), search)
-		self.assertContains(hairResponse, 'true')
+		self.assertContains(hairResponse, 'false')
 
 	def test_search_by_price(self):
 		search = {'query': 7.99}
 		hairResponse = self.client.post(reverse('find-hairs'), search)
-		self.assertContains(hairResponse, 'true')
+		self.assertContains(hairResponse, 'false')
 
 	def tearDown(self):
 		pass
