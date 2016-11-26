@@ -12,8 +12,5 @@ python:
 env:
   - DJANGO=1.10.2
 
-install:
-  - pip install .
-
 before_script:
   - docker ps -a
