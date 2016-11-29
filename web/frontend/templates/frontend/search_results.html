@@ -14,6 +14,7 @@
 			    <div class="thumbnail">
 			      <!-- <img src="..." alt="..."> -->
 			      <div class="caption">
+			      	<label for="id_{{ hair.name }}">{{ field.label }}</label>
 			        <div>
 						<a href="{% url 'hair-detail' hair.id %}"><h3> {{hair.name}} </h3></a>
 						Stylist: {{hair.stylist}} <br>
