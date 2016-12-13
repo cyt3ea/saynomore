@@ -3,7 +3,7 @@ import itertools
 
 sc = SparkContext("spark://spark-master:7077", "RecommendedItems")
 
-data = sc.textFile("/app/access2.log", 2)
+data = sc.textFile("/app/access3.log", 2)
 
 lines = data.map(lambda line: line.split("\t"))
 user_clicks = lines.groupByKey()
@@ -21,7 +21,7 @@ count = pair_users.map(lambda pair: (pair[0], len(pair[1])))
 count = count.filter(lambda x: x[1] > 2)
 output = count.collect()
 
-f = open('/app/output.log', 'w+')
+f = open('/app/output3.log', 'w+')
 for pair, count in output:
 	print(str(pair) + " " + str(count))
 	f.write(str(pair) + "\t" + str(count) + "\n") 
