@@ -12,7 +12,7 @@ import json
 # {'timed_out': False, 'hits': {'total': 1, 'hits': [{'_score': 0.10848885, '_index': 'listing_index', '_source': {'id': 42, 'description': 'This is a used Macbook Air in great condition', 'title': 'Used MacbookAir 13"'}, '_id': '42', '_type': 'listing'}], 'max_score': 0.10848885}, '_shards': {'successful': 5, 'total': 5, 'failed': 0}, 'took': 21}
 
 while True:
-	time.sleep(90)
+	time.sleep(30)
 	hair_fixture_one = {'price' : 18.77, 'stylist' : 'Robby McJimbers', 'hair_upvotes' : 2,	'name': 'McFlurry', 'id': 1}
 	hair_fixture_two = {'price' : 7.99, 'stylist' : 'Clark McHarrington', 'hair_upvotes' : 1,	'name': 'The Womanizer', 'id': 2}
 	es = Elasticsearch(['es'])

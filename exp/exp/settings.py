@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'exp.wsgi.application'
 # Database
 DATABASES = {
           'default': {
-          'ENGINE': 'mysql.connector.django',
+          'ENGINE': 'django.db.backends.mysql',
           'NAME': 'cs4501',
           'USER': 'www',
           'PASSWORD': '$3cureUS',
