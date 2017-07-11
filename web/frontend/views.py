@@ -27,6 +27,7 @@ def login_required(f):
 
 @login_required
 def index(request):
+	print("home page hit")
 	reqHair = urllib.request.Request('http://exp-api:8000/api/v1/all_hairs/')
 	resp_jsonHair = urllib.request.urlopen(reqHair).read().decode('utf8')
 	respHair = json.loads(resp_jsonHair)['resp']

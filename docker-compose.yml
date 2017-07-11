@@ -20,18 +20,40 @@ exp:
     volumes:
       - ./exp:/app
     ports:
-      - "8002:8000"
+      - "8003:8000"
     command: bash -c "pip install requests==2.11.1 && mod_wsgi-express start-server --working-directory ./ --reload-on-changes exp/wsgi.py"
 
-web:
+web1:
     image: tp33/django
     links:
       - exp:exp-api
     volumes:
       - ./web:/app
     ports:
+      - "8001:8000"
+    command: bash -c "pip install requests==2.11.1 && mod_wsgi-express start-server --url-alias /static ./frontend/static --working-directory ./ --reload-on-changes web/wsgi.py --log-to-terminal"
+
+web2:
+    image: tp33/django
+    links:
+      - exp:exp-api
+    volumes:
+      - ./web:/app
+    ports:
+      - "8002:8000"
+    command: bash -c "pip install requests==2.11.1 && mod_wsgi-express start-server --url-alias /static ./frontend/static --working-directory ./ --reload-on-changes web/wsgi.py --log-to-terminal"
+
+haproxy:
+    image: haproxy:1.7
+    container_name: haproxy
+    links:
+      - web1
+      - web2
+    volumes:
+      - ./haproxy:/app
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
       - "8000:8000"
-    command: bash -c "pip install requests==2.11.1 && mod_wsgi-express start-server --url-alias /static ./frontend/static --working-directory ./ --reload-on-changes web/wsgi.py"
 
 kafka:
    image: spotify/kafka
